@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block content %}
-<h1>detail</h1>
 {% if request.user == review.user %}
 <div class="text-end me-5">
   <a class="btn btn-outline-primary" href="{% url 'bars:review' %}">
@@ -18,6 +17,28 @@
   <a class="btn btn-outline-danger" href="{% url 'bars:delete' review.pk %}">
     삭제
   </a>
-</div>
+</div>  
 {% endif %}
+
+<h1>{{ restaurant.name }}</h1>
+<p>좋아요 개수</p>
+{% if request.user.is_authenticated %}
+  <a class="like-heart" href="{% url 'articles:like' article.pk %}">
+  {% if request.user in article.like_users.all %}
+    <i class="bi bi-heart-fill"></i>
+  {% else %}
+    <i class="bi bi-heart"></i>
+  {% endif %}</a>{{ article.like_users.count }}</span>
+{% endif %}
+
+<p>{{ restaurant.location }}</p>
+<p>{{ restaurant.hours }}</p>
+<p>{{ restaurant.parking }}</p>
+<p>{{ restaurant.contact }}</p>
+<hr>
+<h2>식당 상세 내용</h2>
+<p>{{ restaurant.content }}</p>
+
+<h2>사용자 리뷰</h2>
+
 {% endblock %}
