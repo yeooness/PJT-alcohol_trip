@@ -3,7 +3,6 @@ from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
-# Create your models here.
 class Restaurant(models.Model):
     name = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
@@ -19,7 +18,6 @@ class Restaurant(models.Model):
         options={"quality": 80},
     )
 
-
 class Review(models.Model):
     title = models.CharField(max_length=50)
     content = models.TextField()
@@ -33,14 +31,14 @@ class Review(models.Model):
         format="JPEG",
         options={"quality": 80},
     )
-    like_users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="like_reviews"
-    )
-    restaurant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, blank=True)
+    # like_restaurants = models.ManyToManyField(
+    #     settings.AUTH_USER_MODEL, related_name="like_restaurants"
+    # )
 
 class Comment(models.Model):
     content = models.TextField()
     updated_at = models.DateTimeField(auto_now_add=True)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
