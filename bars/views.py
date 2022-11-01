@@ -1,12 +1,20 @@
 from django.shortcuts import render, redirect
-
+from .models import Restaurant, Review, Comment
 
 def index(request):
-    return render(request, "bars/index.html")
+    restaurants = Restaurant.objects.all()
+    context = {
+        'restaurants' : restaurants,
+    }
+    return render(request, "bars/index.html", context)
 
 
-def detail(request):
-    return render(request, "bars/detail.html")
+def detail(request, pk):
+    restaurant = Restaurant.objects.get(pk=pk)
+    context = {
+        'restaurant' : restaurant,
+    }
+    return render(request, "bars/detail.html", context)
 
 
 def review(request):
@@ -25,5 +33,12 @@ def comment(request):
     return render(request, "bars/comment.html")
 
 
-def like(request):
-    return render(request, "bars/like.html")
+def like(request, pk):
+    restaurant = Restaurant.objects.get(pk=pk)
+    if request.user in restaurant.like_users.all():
+        restaurant.like_users.remove(request.user)
+        # is_liked = False
+    else:
+        restaurant.like_users.add(request.user)
+        # is_liked = True
+    return redirect('bars:detail', pk)
