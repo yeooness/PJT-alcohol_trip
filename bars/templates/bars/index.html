@@ -6,5 +6,12 @@
 {% endblock %}
 
 {% block content %} 
+<li class="nav-item">
+  {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
+  <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+  {% else %}
+  <a href="{% url 'account_login' %}" class="nav-link">Login</a>
+  {% endif %}
+</li>
   <h1>index</h1>
 {% endblock %}
