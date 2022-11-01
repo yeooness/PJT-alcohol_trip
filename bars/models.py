@@ -20,7 +20,6 @@ class Review(models.Model):
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="like_reviews"
     )
-    
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=50)
