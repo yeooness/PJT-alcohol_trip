@@ -17,9 +17,6 @@ class Restaurant(models.Model):
         format="JPEG",
         options={"quality": 80},
     )
-    # like_restaurants = models.ManyToManyField(
-    #     settings.AUTH_USER_MODEL, related_name="like_restaurants_users"
-    # )
 
 class Review(models.Model):
     title = models.CharField(max_length=50)
