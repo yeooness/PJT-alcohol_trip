@@ -21,7 +21,6 @@ class Review(models.Model):
         settings.AUTH_USER_MODEL, related_name="like_reviews"
     )
 
-
 class Restaurant(models.Model):
     name = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
