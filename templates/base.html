@@ -1,4 +1,4 @@
-{% load bootstrap5 %}
+{% load django_bootstrap5 %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
@@ -21,47 +21,9 @@
   </head>
 
   <body>
-    <header>
-      <nav class="navbar  navbar-expand-md  navbar-dark bg-dark">
-        <div class="container">
-          <div>
-            <a href="{% url 'index' %}" class="navbar-brand">
-              Movie Review
-            </a>
-          </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-              {% if request.user.is_authenticated %}
-                <li class="nav-item">
-                  <a class='nav-link' href="">
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class='nav-link' href="">
-                    로그아웃
-                  </a>
-                </li>
-              {% else %}
-                <li>
-                  <a class="nav-link" href="">회원가입</a>
-                </li>
-                <li>
-                  <a class="nav-link" href="">로그인</a>
-                </li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
-    {% block indexbody %}{% endblock indexbody %}
-    <div class="container">
+    <div class="container mb-5">
       {% block content %}{% endblock content %}
     </div>
     {% bootstrap_javascript %}
   </body>
-
 </html>
