@@ -23,12 +23,13 @@ def detail(request, pk):
 
 
 @login_required
-def review(request):
+def review(request, pk):
     if request.method == "POST":
         review_form = ReviewForm(request.POST)
         if review_form.is_valid():
             review = review_form.save(commit=False)
             review.user = request.user
+            review.restaurant_id = pk
             review.save()
             return redirect("bars:index")
     else:
