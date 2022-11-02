@@ -6,28 +6,16 @@
 {% endblock %}
 
 {% block content %}
-<div class="text-end me-5">
-  <a class="btn btn-outline-primary" href="{% url 'bars:review' restaurant.pk %}">
-    리뷰 작성하기
-  </a>
-  <a class="btn btn-outline-success" href="">
-    수정
-  </a>
-  <a class="btn btn-outline-danger" href="">
-    삭제
-  </a>
-</div>  
-
 <h1>{{ restaurant.name }}</h1>
 <p>좋아요 개수</p>
 {% if request.user.is_authenticated %}
-  <a class="like-heart" href="{% url 'bars:like' restaurant.pk %}">
+<a class="like-heart" href="{% url 'bars:like' restaurant.pk %}">
 
 
   {% if request.user in restaurant.like_users.all %}
-    <i class="bi bi-heart-fill"></i>
+  <i class="bi bi-heart-fill"></i>
   {% else %}
-    <i class="bi bi-heart"></i>
+  <i class="bi bi-heart"></i>
   {% endif %}</a>{{ restaurant.like_users.count }}</span>
 
 {% endif %}
@@ -41,6 +29,32 @@
 <p>{{ restaurant.content }}</p>
 
 <h2>사용자 리뷰</h2>
+{% for i in reviews %}
+<div>
+  {{i.title }}
+</div>
+{% endfor %}
+
+
+<table class="table table-hover align-middle text-center mt-5">
+  <thead>
+    <tr>
+      <th scope="col">번호</th>
+      <th scope="col">리뷰제목</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
+    {% for i in reviews %}
+    <tr>
+      <th scope="row">{{ i.title }}</th>
+      <td>
+        <a class="text-decoration-none" href="">{{ i.content }}</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 
 <div class="text-end me-5">
   <a class="btn btn-outline-primary" href="{% url 'bars:review' restaurant.pk %}">
