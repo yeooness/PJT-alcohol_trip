@@ -39,4 +39,16 @@
 
 <h2>사용자 리뷰</h2>
 
+<div class="text-end me-5">
+  <a class="btn btn-outline-primary" href="{% url 'bars:review' restaurant.pk %}">
+    리뷰 작성하기
+  </a>
+  <a class="btn btn-outline-success" href="">
+    수정
+  </a>
+  <a class="btn btn-outline-danger" href="">
+    삭제
+  </a>
+</div>
+
 {% endblock %}
