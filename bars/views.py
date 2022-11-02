@@ -21,7 +21,6 @@ def detail(request, pk):
     }
     return render(request, "bars/detail.html", context)
 
-
 def review(request, pk):
     if request.method == "POST":
         review_form = ReviewForm(request.POST)
