@@ -18,6 +18,9 @@ class Restaurant(models.Model):
         format="JPEG",
         options={"quality": 80},
     )
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="like_restaurants"
+    )
 
 
 class Review(models.Model):
@@ -34,9 +37,6 @@ class Review(models.Model):
         options={"quality": 80},
     )
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, blank=True)
-    # like_restaurants = models.ManyToManyField(
-    #     settings.AUTH_USER_MODEL, related_name="like_restaurants"
-    # )
 
 
 class Comment(models.Model):

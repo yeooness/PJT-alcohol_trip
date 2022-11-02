@@ -27,6 +27,7 @@
 <hr>
 <h2>식당 상세 내용</h2>
 <p>{{ restaurant.content }}</p>
+
 <hr>
 <div class="container mt-3">
   <h2>리뷰</h2>
@@ -46,6 +47,7 @@
   </div>
   {% endfor %}
 </div>
+
 <div class="text-end me-5">
   <a class="btn btn-primary" href="{% url 'bars:review' restaurant.pk %}">
     리뷰 작성하기
