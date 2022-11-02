@@ -21,15 +21,16 @@ def detail(request, pk):
     }
     return render(request, "bars/detail.html", context)
 
+@login_required
 def review(request, pk):
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
         if review_form.is_valid():
-            review = review_form(commit=False)
+            review = review_form.save(commit=False)
             review.user = request.user
             review.restaurant_id = pk
             review.save()
-            return redirect("bars:detail", pk)
+            return redirect("bars:index")
     else:
         review_form = ReviewForm()
     context = {
