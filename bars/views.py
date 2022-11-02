@@ -23,7 +23,6 @@ def detail(request, pk):
     }
     return render(request, "bars/detail.html", context)
 
-
 @login_required
 def review(request, pk):
     if request.method == "POST":
