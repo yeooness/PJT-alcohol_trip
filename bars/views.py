@@ -16,20 +16,24 @@ def index(request):
 
 def detail(request, pk):
     restaurant = Restaurant.objects.get(pk=pk)
+    reviews = Review.objects.order_by("-pk")
     context = {
         "restaurant": restaurant,
+        "reviews": reviews,
     }
     return render(request, "bars/detail.html", context)
 
+
+@login_required
 def review(request, pk):
     if request.method == "POST":
         review_form = ReviewForm(request.POST, request.FILES)
         if review_form.is_valid():
-            review = review_form(commit=False)
+            review = review_form.save(commit=False)
             review.user = request.user
             review.restaurant_id = pk
             review.save()
-            return redirect("bars:detail", pk)
+            return redirect("bars:index")
     else:
         review_form = ReviewForm()
     context = {
@@ -38,27 +42,29 @@ def review(request, pk):
     return render(request, "bars/review.html", context)
 
 
-def update(request, pk):
-    # review = Review.objects.get(pk=pk)
-    # if request.method == "POST":
-    #     review_form = ReviewForm(request.POST, instance=review)
-    #     if review_form.is_valid():
-    #         review_form.save()
-    #         return redirect("bars:detail", review.pk)
-    #  else:
-    #     review_form = ReviewForm(instance=review)
-    # context = {
-    #     "review_form": review_form,
-    # }
+def update(request, restaurant_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST, instance=review)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.restaurant_id = restaurant_pk
+            review.save()
+            return redirect("bars:detail", restaurant_pk)
+    else:
+        review_form = ReviewForm(instance=review)
+    context = {
+        "review_form": review_form,
+    }
     return render(request, "bars/update.html", context)
 
 
-def delete(request, pk):
-    review = Review.objects.get(pk=pk)
+def delete(request, restaurant_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
     if request.user == review.user:
-        if request.method == "POST":
-            review.delete()
-            return redirect("bars/index")
+        review.delete()
+        return redirect("bars:detail", restaurant_pk)
     else:
         return HttpResponseForbidden
 

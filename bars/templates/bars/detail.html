@@ -6,28 +6,16 @@
 {% endblock %}
 
 {% block content %}
-<div class="text-end me-5">
-  <a class="btn btn-outline-primary" href="{% url 'bars:review' restaurant.pk %}">
-    리뷰 작성하기
-  </a>
-  <a class="btn btn-outline-success" href="">
-    수정
-  </a>
-  <a class="btn btn-outline-danger" href="">
-    삭제
-  </a>
-</div>  
-
 <h1>{{ restaurant.name }}</h1>
 <p>좋아요 개수</p>
 {% if request.user.is_authenticated %}
-  <a class="like-heart" href="{% url 'bars:like' restaurant.pk %}">
+<a class="like-heart" href="{% url 'bars:like' restaurant.pk %}">
 
 
   {% if request.user in restaurant.like_users.all %}
-    <i class="bi bi-heart-fill"></i>
+  <i class="bi bi-heart-fill"></i>
   {% else %}
-    <i class="bi bi-heart"></i>
+  <i class="bi bi-heart"></i>
   {% endif %}</a>{{ restaurant.like_users.count }}</span>
 
 {% endif %}
@@ -39,18 +27,28 @@
 <hr>
 <h2>식당 상세 내용</h2>
 <p>{{ restaurant.content }}</p>
-
-<h2>사용자 리뷰</h2>
-
+<hr>
+<div class="container mt-3">
+  <h2>리뷰</h2>
+  {% for i in reviews %}
+  <div class="container mt-3">
+    <h5 class="fw-bold">{{ i.user.username }}</h5>
+    {{ i.updated_at }}
+    {{ i.title }}
+    {{ i.content }}
+    <a class="btn btn-outline-primary" href="{% url 'bars:update' restaurant.pk i.pk %}">
+      수정
+    </a>
+    <a class="btn btn-outline-danger" href="{% url 'bars:delete' restaurant.pk i.pk %}">
+      삭제
+    </a>
+    <hr>
+  </div>
+  {% endfor %}
+</div>
 <div class="text-end me-5">
-  <a class="btn btn-outline-primary" href="{% url 'bars:review' restaurant.pk %}">
+  <a class="btn btn-primary" href="{% url 'bars:review' restaurant.pk %}">
     리뷰 작성하기
-  </a>
-  <a class="btn btn-outline-success" href="">
-    수정
-  </a>
-  <a class="btn btn-outline-danger" href="">
-    삭제
   </a>
 </div>
 
