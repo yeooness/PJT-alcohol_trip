@@ -16,8 +16,10 @@ def index(request):
 
 def detail(request, pk):
     restaurant = Restaurant.objects.get(pk=pk)
+    reviews = Review.objects.order_by("-pk")
     context = {
         "restaurant": restaurant,
+        "reviews": reviews,
     }
     return render(request, "bars/detail.html", context)
 
