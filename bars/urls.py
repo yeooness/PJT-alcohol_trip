@@ -7,8 +7,16 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("<int:pk>/", views.detail, name="detail"),
     path("<int:pk>/review/", views.review, name="review"),
-    path("<int:pk>/review/update/", views.update, name="update"),
-    path("<int:pk>/review/delete/", views.delete, name="delete"),
+    path(
+        "<int:restaurant_pk>/review/<int:review_pk>/update/",
+        views.update,
+        name="update",
+    ),
+    path(
+        "<int:restaurant_pk>/review/<int:review_pk>/delete/",
+        views.delete,
+        name="delete",
+    ),
     path("<int:pk>/comment", views.comment, name="comment"),
     path("<int:pk>/like", views.like, name="like"),
 ]
