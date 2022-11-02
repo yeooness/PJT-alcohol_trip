@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     restaurants = Restaurant.objects.all()
     context = {
-        'restaurants' : restaurants,
+        "restaurants": restaurants,
     }
     return render(request, "bars/index.html", context)
 
@@ -17,20 +17,19 @@ def index(request):
 def detail(request, pk):
     restaurant = Restaurant.objects.get(pk=pk)
     context = {
-        'restaurant' : restaurant,
+        "restaurant": restaurant,
     }
     return render(request, "bars/detail.html", context)
 
-
-@login_required
-def review(request):
+def review(request, pk):
     if request.method == "POST":
-        review_form = ReviewForm(request.POST)
+        review_form = ReviewForm(request.POST, request.FILES)
         if review_form.is_valid():
-            review = review_form.save(commit=False)
+            review = review_form(commit=False)
             review.user = request.user
+            review.restaurant_id = pk
             review.save()
-            return redirect("bars:index")
+            return redirect("bars:detail", pk)
     else:
         review_form = ReviewForm()
     context = {
@@ -40,21 +39,18 @@ def review(request):
 
 
 def update(request, pk):
-    review = Review.objects.get(pk=pk)
-    if request.user == review.user:
-        if request.method == "POST":
-            review_form = ReviewForm(request.POST, instance=review)
-            if review_form.is_valid():
-                review_form.save()
-                return redirect("bars:detail", review.pk)
-        else:
-            review_form = ReviewForm(instance=review)
-        context = {
-            "review_form": review_form,
-        }
-        return render(request, "bars/update.html", context)
-    else:
-        return HttpResponseForbidden()
+    # review = Review.objects.get(pk=pk)
+    # if request.method == "POST":
+    #     review_form = ReviewForm(request.POST, instance=review)
+    #     if review_form.is_valid():
+    #         review_form.save()
+    #         return redirect("bars:detail", review.pk)
+    #  else:
+    #     review_form = ReviewForm(instance=review)
+    # context = {
+    #     "review_form": review_form,
+    # }
+    return render(request, "bars/update.html", context)
 
 
 def delete(request, pk):
@@ -67,7 +63,6 @@ def delete(request, pk):
         return HttpResponseForbidden
 
 
-@login_required
 def comment(request, pk):
     review = Review.objects.get(pk=pk)
     comment_form = CommentForm(request.POST)
@@ -87,4 +82,4 @@ def like(request, pk):
     else:
         restaurant.like_users.add(request.user)
         # is_liked = True
-    return redirect('bars:detail', pk)
+    return redirect("bars:detail", pk)
