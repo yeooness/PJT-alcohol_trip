@@ -3,6 +3,7 @@ from django.conf import settings
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
+
 class Restaurant(models.Model):
     name = models.CharField(max_length=50)
     location = models.CharField(max_length=50)
@@ -17,6 +18,7 @@ class Restaurant(models.Model):
         format="JPEG",
         options={"quality": 80},
     )
+
 
 class Review(models.Model):
     title = models.CharField(max_length=50)
@@ -36,9 +38,9 @@ class Review(models.Model):
     #     settings.AUTH_USER_MODEL, related_name="like_restaurants"
     # )
 
+
 class Comment(models.Model):
     content = models.TextField()
     updated_at = models.DateTimeField(auto_now_add=True)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    
