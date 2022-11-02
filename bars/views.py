@@ -1,17 +1,25 @@
 from gzip import READ
 from django.shortcuts import render, redirect
 from .forms import ReviewForm, CommentForm
-from .models import Review
+from .models import Restaurant, Review, Comment
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 
 
 def index(request):
-    return render(request, "bars/index.html")
+    restaurants = Restaurant.objects.all()
+    context = {
+        'restaurants' : restaurants,
+    }
+    return render(request, "bars/index.html", context)
 
 
-def detail(request):
-    return render(request, "bars/detail.html")
+def detail(request, pk):
+    restaurant = Restaurant.objects.get(pk=pk)
+    context = {
+        'restaurant' : restaurant,
+    }
+    return render(request, "bars/detail.html", context)
 
 
 @login_required
@@ -72,9 +80,11 @@ def comment(request, pk):
 
 
 def like(request, pk):
-    review = Review.objects.get(pk=pk)
-    if request.user in review.like_users.all():
-        review.like_users.remove(request.user)
+    restaurant = Restaurant.objects.get(pk=pk)
+    if request.user in restaurant.like_users.all():
+        restaurant.like_users.remove(request.user)
+        # is_liked = False
     else:
-        review.like_users.add(request.user)
-    return redirect("bars:detail", pk)
+        restaurant.like_users.add(request.user)
+        # is_liked = True
+    return redirect('bars:detail', pk)
