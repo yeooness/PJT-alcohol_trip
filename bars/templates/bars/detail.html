@@ -22,11 +22,14 @@
 <p>좋아요 개수</p>
 {% if request.user.is_authenticated %}
   <a class="like-heart" href="{% url 'bars:like' restaurant.pk %}">
+
+
   {% if request.user in restaurant.like_users.all %}
     <i class="bi bi-heart-fill"></i>
   {% else %}
     <i class="bi bi-heart"></i>
   {% endif %}</a>{{ restaurant.like_users.count }}</span>
+
 {% endif %}
 
 <p>{{ restaurant.location }}</p>
