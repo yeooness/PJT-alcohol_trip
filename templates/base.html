@@ -19,38 +19,65 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+<Style>
+  .navbar-custom {
+    background-color: #FFF5EE;
+}
+
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: rgba(255,255,255,.8);
+}
+
+/* change the link color and padding  */
+.navbar-custom .navbar-nav .nav-link {
+    color: rgb(204, 85, 0,.5);
+    padding: .75rem 1rem;
+}
+
+body {
+  background-color: #FCF5E5;
+}
+
+</Style>
+
 </head>
+
+
+
   <body>
   <!-- Nav -->
-  <nav class="navbar navbar-expand-lg bg-light">
+  <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <img class="" src="{% static 'images/logo.png' %}" alt="logo" height="60">
+        <img class="" src="{% static 'images/logo.png' %}" alt="logo" height="80">
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-custom" aria-controls="navbar-custom" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse" id="navbar-custom">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="#">지역 별 맛집</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Disabled</a>
+            <a class="nav-link" href="#">종류 별 맛집</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
+            <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+            {% else %}
+            <a href="{% url 'account_login' %}" class="nav-link">Login</a>
+            {% endif %}
             <li class="nav-item">
-              {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
-              <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
-              {% else %}
-              <a href="{% url 'account_login' %}" class="nav-link">Login</a>
-              {% endif %}
+              <a class="nav-link active" aria-current="page" href="#">마이 페이지</a>
             </li>
         </ul>
       </div>
