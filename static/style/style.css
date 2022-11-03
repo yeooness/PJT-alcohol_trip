@@ -31,3 +31,12 @@
 .carousel-inner .carousel-item-start { 
   transform: translateX(0);
 }
+
+.containerIntro h5,
+.containerIntro p {
+    display: inline;
+    vertical-align: top;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 28px;
+}
