@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -140,19 +141,19 @@
 
 <div class="container mt-3">
   <h2>리뷰</h2>
-  {% for i in reviews %}
+  {% for review in reviews %}
   <div class="container mt-3">
-    <div id="containerIntro">
-     <h5 class="fw-bold">{{ i.user.username }}</h5>
-      <p>{{ i.updated_at }}</p>
-    </div>
-    <p>{{ i.title }}</p>
-    <p>{{ i.content }}</p>
-  </div>  
-</div>
+
+    <h5 class="fw-bold">{{ review.user.username }}</h5>
+    <p class="fw-bold">{{ review.get_grade_display }}</p>
+    <p>{{ review.updated_at }}</p>
+    <p class="fw-bold">{{ review.title }}</p>
+    <p>{{ review.content }}</p>
+
+
     <!-- 수정/삭제 -->
     <div class="text-end me-5">
-      <a class="btn btn-outline-primary" href="{% url 'bars:update' restaurant.pk i.pk %}">
+      <a class="btn btn-outline-primary" href="{% url 'bars:update' restaurant.pk review.pk %}">
         수정
       </a>
       <!-- <div class="text-end me-5"> -->
@@ -181,7 +182,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">잘못눌렀어!</button>
-              <a href="{% url 'bars:delete' restaurant.pk i.pk %}">
+              <a href="{% url 'bars:delete' restaurant.pk review.pk %}">
                 <button type="button" class="btn btn-primary">정말 삭제를 원해!</button>
               </a>
             </div>
@@ -195,7 +196,7 @@
 
   <!-- 댓글 -->
   <i class="bi bi-chat"></i>
-  {% for comment in comments %}
+  {% for comment in review.comment_set.all %}
   <p>{{ comment.content }}</p>
   <hr>
 
@@ -206,7 +207,7 @@
   <form action="{% url 'bars:comment_create' restaurant.pk %}" method="POST">
     {% csrf_token %}
     {% bootstrap_form comment_form layout='inline'%}
-    <input type="hidden" name="review" value={{ i.id }}>
+    <input type="hidden" name="review" value={{ review.id }}>
     {% bootstrap_button button_type="submit" content="등록" button_class="btn-primary" %}
   </form>
   <hr>
@@ -219,5 +220,19 @@
     리뷰 작성하기
   </a>
 </div>
+
+<!-- 별점기능 -->
+<!-- <div class="star-rating space-x-4 mx-auto">
+  <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
+  <label for="5-stars" class="star pr-4">★</label>
+  <input type="radio" id="4-stars" name="rating" value="4" v-model="ratings" />
+  <label for="4-stars" class="star">★</label>
+  <input type="radio" id="3-stars" name="rating" value="3" v-model="ratings" />
+  <label for="3-stars" class="star">★</label>
+  <input type="radio" id="2-stars" name="rating" value="2" v-model="ratings" />
+  <label for="2-stars" class="star">★</label>
+  <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+  <label for="1-star" class="star">★</label>
+</div> -->
 
 {% endblock %}
