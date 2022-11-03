@@ -86,7 +86,7 @@ def naverMapCrawling(search):
         for character in string.punctuation:
             name = name.replace(character, '') # 특수기호 제거(파이어베이스에 경로로 저장하기 위해서)
         #document.querySelector("#ct > div.search_listview._content._ctList > ul > li:nth-child(1) > div.item_info > a.a_item.a_item_distance._linkSiteview > div > em")
-        #ct > div.search_listview._content._ctList > ul > li:nth-child(1) > div.item_info > a.a_item.a_item_distance._linkSiteview > div > em
+        #ct > div.search_listview._content._ctList > ul >ls li:nth-child(1) > div.item_info > a.a_item.a_item_distance._linkSiteview > div > em
         
         datas.append({
             "name" : name,
