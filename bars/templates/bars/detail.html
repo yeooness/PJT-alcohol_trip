@@ -8,7 +8,35 @@
 
 {% block content %}
 
-<h1>{{ restaurant.name }}</h1>
+
+
+
+<div class="text-end me-5">
+  <a class="btn btn-outline-primary" href="{% url 'bars:review' restaurant.pk %}">
+    리뷰 작성하기
+  </a>
+  <a class="btn btn-outline-success" href="">
+    수정
+  </a>
+  <a class="btn btn-outline-danger" href="">
+    삭제
+  </a>
+</div>  
+
+
+  <h1>{{ restaurant.name }}</h1> <br>
+
+  <div> 
+
+  <p>주소: {{ restaurant.location }}</p> 
+  <p>전화번호: {{ restaurant.contact }}</p>
+  <p>영업시간: {{ restaurant.hours }}</p>
+  <p>주차 가능 여부: {{ restaurant.parking }}</p>
+  
+
+</div>
+
+
 <p>좋아요 개수</p>
 {% if request.user.is_authenticated %}
 <a class="like-heart" href="{% url 'bars:like' restaurant.pk %}">
@@ -98,24 +126,30 @@
   </div>
 </div>
 
-<p>{{ restaurant.location }}</p>
-<p>{{ restaurant.hours }}</p>
-<p>{{ restaurant.parking }}</p>
-<p>{{ restaurant.contact }}</p>
-<hr>
-<h2>식당 상세 내용</h2>
-<p>{{ restaurant.content }}</p>
+<div>
+  <h2>식당 상세 내용</h2>
+  <hr>
+    <div class="container" style="height: 300px;">
+      <form class="d-flex w-75 h-25">
+        <p>{{ restaurant.content }}</p>
+      </form>
+    </div>
+</div>
+
 
 <hr>
+
 <div class="container mt-3">
   <h2>리뷰</h2>
   {% for review in reviews %}
   <div class="container mt-3">
+
     <h5 class="fw-bold">{{ review.user.username }}</h5>
     <p class="fw-bold">{{ review.get_grade_display }}</p>
     <p>{{ review.updated_at }}</p>
     <p class="fw-bold">{{ review.title }}</p>
     <p>{{ review.content }}</p>
+
 
     <!-- 수정/삭제 -->
     <div class="text-end me-5">

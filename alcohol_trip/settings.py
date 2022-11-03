@@ -160,8 +160,8 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-SITE_ID = 6
-LOGIN_REDIRECT_URL = '/bars'
+SITE_ID = 7
+LOGIN_REDIRECT_URL = '/accounts'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
@@ -203,6 +203,6 @@ MEDIA_URL = '/media/'
 # kakao 
 # rest api key : d25e65bf3dd75c3d15cb6ca941b39899
 
-# main page : http://127.0.0.1:8000/
+# main page : http://127.0.0.1:8000
 # redirect : http://127.0.0.1:8000/accounts/login/naver/callback/
 
