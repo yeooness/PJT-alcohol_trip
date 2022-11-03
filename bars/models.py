@@ -24,9 +24,16 @@ class Restaurant(models.Model):
 
 
 class Review(models.Model):
+    grade_choices = (
+        ("1", "⭐"),
+        ("2", "⭐⭐"),
+        ("3", "⭐⭐⭐"),
+        ("4", "⭐⭐⭐⭐"),
+        ("5", "⭐⭐⭐⭐⭐"),
+    )
     title = models.CharField(max_length=50)
     content = models.TextField()
-    grade = models.IntegerField(null=True)
+    grade = models.CharField(max_length=2, choices=grade_choices)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = ProcessedImageField(
@@ -37,6 +44,9 @@ class Review(models.Model):
         options={"quality": 80},
     )
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, blank=True)
+    like_usersreview = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="like_review"
+    )
 
 
 class Comment(models.Model):
