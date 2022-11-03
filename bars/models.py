@@ -6,17 +6,34 @@ from imagekit.processors import ResizeToFill
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=50)
-    location = models.CharField(max_length=50)
-    content = models.CharField(max_length=50)
-    hours = models.TimeField()
-    parking = models.BooleanField()
-    contact = models.CharField(max_length=30)
-    image = ProcessedImageField(
+    category = models.TextField()
+    address = models.TextField(null=True)
+    phone = models.TextField(null=True)
+    map_url = models.TextField(null=True)
+    hours = models.TextField(null=True)
+    picture1 = ProcessedImageField(
         upload_to="images/",
         blank=True,
         processors=[ResizeToFill(1200, 960)],
         format="JPEG",
         options={"quality": 80},
+        null=True
+    )
+    picture2 = ProcessedImageField(
+        upload_to="images/",
+        blank=True,
+        processors=[ResizeToFill(1200, 960)],
+        format="JPEG",
+        options={"quality": 80},
+        null=True
+    )
+    picture3 = ProcessedImageField(
+        upload_to="images/",
+        blank=True,
+        processors=[ResizeToFill(1200, 960)],
+        format="JPEG",
+        options={"quality": 80},
+        null=True
     )
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="like_restaurants"
