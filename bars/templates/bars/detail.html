@@ -9,6 +9,7 @@
 
 
 
+
 <div class="text-end me-5">
   <a class="btn btn-outline-primary" href="{% url 'bars:review' restaurant.pk %}">
     리뷰 작성하기
@@ -33,6 +34,7 @@
   
 
 </div>
+
 
 <p>좋아요 개수</p>
 {% if request.user.is_authenticated %}
@@ -119,10 +121,9 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
       </a>
     </div>
-  </div>		
+
+  </div>
 </div>
-
-
 
 <div>
   <h2>식당 상세 내용</h2>
