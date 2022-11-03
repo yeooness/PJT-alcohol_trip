@@ -8,13 +8,14 @@
 
 {% block content %}
 
+<h1>{{ restaurant.name }}</h1> <br>
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>     
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
-
+<div>
 
 
   <h1>{{ restaurant.name }}</h1> <hr> <br>
@@ -181,11 +182,11 @@
 <div>
   <h2>식당 상세 내용</h2> 
   <hr>
-    <div class="container" style="height: 300px;">
-      <form class="d-flex w-75 h-25">
-        <p>{{ restaurant.content }}</p>
-      </form>
-    </div>
+  <div class="container" style="height: 300px;">
+    <form class="d-flex w-75 h-25">
+      <p>{{ restaurant.content }}</p>
+    </form>
+  </div>
 </div>
 
 
@@ -259,13 +260,18 @@
 
   <!-- 댓글 -->
   <i class="bi bi-chat"></i>
+  {% if review.comment_set.all %}
+  {{ review.comment_set.all|length }}
+  {% endif %}
+
   {% for comment in review.comment_set.all %}
   <p>{{ comment.content }}</p>
+  <a href="{% url 'bars:comment_delete' restaurant.pk comment.pk %}">삭제</a>
   <hr>
-
   {% empty %}
   <p>댓글이 없습니다.</p>
   {% endfor %}
+
 
   <form action="{% url 'bars:comment_create' restaurant.pk %}" method="POST">
     {% csrf_token %}
@@ -284,6 +290,7 @@
   </a>
 </div>
 
+
 <!-- 별점기능 -->
 <!-- <div class="star-rating space-x-4 mx-auto">
   <input type="radio" id="5-stars" name="rating" value="5" v-model="ratings" />
@@ -297,5 +304,8 @@
   <input type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
   <label for="1-star" class="star">★</label>
 </div> -->
+
+<a href="{% url 'bars:comment_create' restaurant.pk %}">댓글쓰기</a>
+
 
 {% endblock %}
