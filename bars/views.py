@@ -16,12 +16,16 @@ def index(request):
 
 def detail(request, restaurant_pk):
     restaurant = Restaurant.objects.get(pk=restaurant_pk)
-    reviews = Review.objects.order_by("-pk")
+    review = request.POST.get("review")
+    reviews = Review.objects.filter(restaurant_id=restaurant_pk)
+    comments = Comment.objects.filter(review_id=review)
     comment_form = CommentForm
     context = {
         "restaurant": restaurant,
         "reviews": reviews,
         "comment_form": comment_form,
+        # "comments": reviews.comment_set.all(),
+        "comments": comments,
     }
     return render(request, "bars/detail.html", context)
 
@@ -35,7 +39,7 @@ def review(request, pk):
             review.user = request.user
             review.restaurant_id = pk
             review.save()
-            return redirect("bars:index")
+            return redirect("bars:detail", pk)
     else:
         review_form = ReviewForm()
     context = {
@@ -76,8 +80,6 @@ def comment_create(request, restaurant_pk):
     review_pk = Review.objects.get(pk=review)
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
-        print("댓글")
-        print(review)
         comment = comment_form.save(commit=False)
         comment.review = review_pk
         comment.user_id = request.user.pk
@@ -89,11 +91,8 @@ def like(request, pk):
     restaurant = Restaurant.objects.get(pk=pk)
     if request.user in restaurant.like_users.all():
         restaurant.like_users.remove(request.user)
-        print("좋아요")
-        print(1)
         # is_liked = False
     else:
         restaurant.like_users.add(request.user)
         # is_liked = True
-        print(2)
     return redirect("bars:detail", pk)
