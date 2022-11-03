@@ -1,12 +1,10 @@
-/* component */
-
 .star-rating {
-  border: solid 1px #ccc;
   display: flex;
   flex-direction: row-reverse;
-  font-size: 1.5em;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
   justify-content: space-around;
-  padding: 0 .2em;
+  padding: 0 0.2em;
   text-align: center;
   width: 5em;
 }
@@ -16,15 +14,18 @@
 }
 
 .star-rating label {
-  color: #ccc;
+  -webkit-text-fill-color: transparent;
+  /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 2.3px;
+  -webkit-text-stroke-color: #2b2a29;
   cursor: pointer;
 }
 
 .star-rating :checked~label {
-  color: #f90;
+  -webkit-text-fill-color: gold;
 }
 
 .star-rating label:hover,
 .star-rating label:hover~label {
-  color: #fc0;
+  -webkit-text-fill-color: #fff58c;
 }
