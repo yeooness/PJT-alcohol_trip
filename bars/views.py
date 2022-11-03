@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def index(request):
-    restaurants = Restaurant.objects.all()
+    restaurants = Restaurant.objects.all()[:8]
     context = {
         "restaurants": restaurants,
     }

@@ -78,7 +78,7 @@ body {
               <a href="{% url 'userpage:userpage' request.user.pk %}" class="nav-link">userpage</a>
           </li>
           <li>
-            <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+
             {% else %}
             <a href="{% url 'accounts:login' %}" class="nav-link">Login</a>
             {% endif %}
