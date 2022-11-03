@@ -87,9 +87,14 @@ def comment_create(request, restaurant_pk):
     return redirect("bars:detail", restaurant_pk)
 
 
+def comment_delete(request, restaurant_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    comment.delete()
+    return redirect("bars:detail", restaurant_pk)
+
+
 def like(request, pk):
     restaurant = Restaurant.objects.get(pk=pk)
-    review = Review.objects.get
     if request.user in restaurant.like_users.all():
         restaurant.like_users.remove(request.user)
         # is_liked = False

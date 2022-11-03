@@ -22,5 +22,10 @@ urlpatterns = [
         views.comment_create,
         name="comment_create",
     ),
+    path(
+        "<int:restaurant_pk>/review/comment/<int:comment_pk>/delete",
+        views.comment_delete,
+        name="comment_delete",
+    ),
     path("<int:pk>/like", views.like, name="like"),
 ]
