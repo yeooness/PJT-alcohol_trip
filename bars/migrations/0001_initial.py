@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('parking', models.BooleanField()),
                 ('contact', models.CharField(max_length=30)),
                 ('image', imagekit.models.fields.ProcessedImageField(blank=True, upload_to='images/')),
-                ('review', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='bars.review')),
+                ('like_users', models.ManyToManyField(related_name='like_restaurants', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -36,7 +36,6 @@ class Migration(migrations.Migration):
                 ('grade', models.IntegerField(null=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('image', imagekit.models.fields.ProcessedImageField(blank=True, upload_to='images/')),
-                ('like_users', models.ManyToManyField(related_name='like_reviews', to=settings.AUTH_USER_MODEL)),
                 ('restaurant', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to='bars.restaurant')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
