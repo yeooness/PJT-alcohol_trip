@@ -45,13 +45,16 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
-            <li class="nav-item">
-              {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
-              <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
-              {% else %}
-              <a href="{% url 'account_login' %}" class="nav-link">Login</a>
-              {% endif %}
-            </li>
+          <li class="nav-item">
+            {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
+              <a href="{% url 'userpage:userpage' request.user.pk %}" class="nav-link">userpage</a>
+          </li>
+          <li>
+            <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+            {% else %}
+            <a href="{% url 'account_login' %}" class="nav-link">Login</a>
+            {% endif %}
+          </li>
         </ul>
       </div>
     </div>
