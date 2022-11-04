@@ -110,7 +110,7 @@
   <h2>리뷰</h2>
   {% for i in reviews %}
   <div class="container mt-3">
-    <h5 class="fw-bold">{{ i.user.username }}</h5>
+    <a href="{% url 'accounts:userpage' i.pk %}"><h5 class="fw-bold">{{ i.user.username }}</h5></a>
     <p>{{ i.updated_at }}</p>
     <p>{{ i.title }}</p>
     <p>{{ i.content }}</p>
