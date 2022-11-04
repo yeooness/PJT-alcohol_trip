@@ -74,15 +74,16 @@ def delete(request, restaurant_pk, review_pk):
         return HttpResponseForbidden
 
 
-def comment_create(request, restaurant_pk):
-    review = request.POST.get("review")
-    review_pk = Review.objects.get(pk=review)
+def comment_create(request, restaurant_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
-        comment.review = review_pk
-        comment.user_id = request.user.pk
+        comment.review = review
+        comment.user= request.user
         comment.save()
+    # print(comment.review)
+    # print(review_pk)
     return redirect("bars:detail", restaurant_pk)
 
 
