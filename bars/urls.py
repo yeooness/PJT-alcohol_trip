@@ -23,13 +23,13 @@ urlpatterns = [
         name="comment_create",
     ),
     path(
-        "<int:restaurant_pk>/review/comment/<int:comment_pk>/delete",
+        "<int:restaurant_pk>/review/comment/<int:comment_pk>/delete/",
         views.comment_delete,
         name="comment_delete",
     ),
-    path("<int:pk>/restaurant_like", views.restaurant_like, name="restaurant_like"),
+    path("<int:pk>/restaurant_like/", views.restaurant_like, name="restaurant_like"),
     path(
-        "<int:restaurant_pk>/<int:review_pk>/review_like",
+        "<int:restaurant_pk>/<int:review_pk>/review_like/",
         views.review_like,
         name="review_like",
     ),

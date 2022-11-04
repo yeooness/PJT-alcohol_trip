@@ -13,6 +13,8 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<scrip src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script defer src ="{% static 'js/script.js' %}"></script>
 
 <div>
   <h1>{{ restaurant.name }}</h1>
@@ -30,12 +32,13 @@
 
   <p>좋아요 개수</p>
   {% if request.user.is_authenticated %}
-  <a class="like-heart" href="{% url 'bars:restaurant_like' restaurant.pk %}">
+  {% comment %} < class="like-heart" href="{% url 'bars:restaurant_like' restaurant.pk %}"> {% endcomment %}
     {% if request.user in restaurant.like_users.all %}
-    <i class="bi bi-heart-fill"></i>
+    <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart-fill" style="cursor : pointer;"></i>
     {% else %}
-    <i class="bi bi-heart"></i>
-    {% endif %}</a>{{ restaurant.like_users.count }}</span>
+    <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart" style="cursor : pointer;"></i>
+    {% endif %}
+    <span>{{ restaurant.like_users.count }}</span>
   {% endif %}
 
 
@@ -251,7 +254,7 @@
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal"
       data-bs-target="#staticBackdrop-{{ review.id }}">
-      댓글 달기ll
+      댓글 달기
     </button>
 
     <!-- Modal -->
