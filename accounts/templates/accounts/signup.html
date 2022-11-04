@@ -1,23 +1,16 @@
-{% extends "base.html" %}
-{% load django_bootstrap5 %}
-{% load i18n %}
-{% load account socialaccount %}
+{% extends 'base.html' %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% load django_bootstrap5 %}
+
+{% block css %}
+{% endblock %}
 
 {% block content %}
-<div class="container text-center m-5 mx-auto" style="width: 600px;">
-<h1>{% trans "Sign Up" %}</h1>
 
-<form class="signup mt-3" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {% bootstrap_form form %}
-
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit" class="btn btn-dark">{% trans "Sign Up" %} &raquo;</button>
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="가입하기" %}
 </form>
-</div>
 
 {% endblock %}

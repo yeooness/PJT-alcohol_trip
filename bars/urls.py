@@ -18,7 +18,7 @@ urlpatterns = [
         name="delete",
     ),
     path(
-        "<int:restaurant_pk>/review/comment/",
+        "<int:restaurant_pk>/review/<int:review_pk>/comment/",
         views.comment_create,
         name="comment_create",
     ),

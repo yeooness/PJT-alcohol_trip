@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{ % bootstrap_css % }
+{ % bootstrap_javascript % }
+{% load static %}
+{% block content %}
+<div class="m-5" style="600px;">
+  <div class="d-flex border mx-auto p-3" style="width: 80%;">
+  {% if profile_image %}
+    <div class="profile-crop"><img class="profile-image rounded-circle" src="{{ profile_image }}" alt=""></div>
+  {% endif %}
+  <div class="p-3">
+    <h3 class="fs-3">{{ username }}</h3>
+
+    <form id="follow-form" data-user-id="{{ user.pk }}">
+      {% csrf_token %}
+      {% if request.user in user.followers.all %}
+        <input type="submit" value="unfollow" class="btn btn-outline-dark">
+      {% else %}
+        <input type="submit" value="follow" class="btn btn-dark">
+      {% endif %}
+    </form>
+
+    <div class="d-flex justify-content-center my-2">
+      <div data-bs-toggle="modal" data-bs-target="#exampleModal1" class="me-4 border p-3" style="cursor : pointer;">
+        <p>follower</p>
+        <p id="followers-count" class="mb-0">{{ user.followers.all|length }}</p>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">follower list</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              {% if not user.followers.all.count %}
+                <p>팔로우한 사람이 없어요</p>
+              {% else %}
+                {% for follower in user.followers.all %}
+                  <a href="{% url 'accounts:mypage' follower.username %}" class="text-decoration-none fw-bold text-dark">{{ follower.username }}</a>
+                  <br>
+                {% endfor %}
+              {% endif %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-bs-toggle="modal" data-bs-target="#exampleModal2" class="me-4 border p-3" style="cursor : pointer;">
+        <p>following</p>
+        <p id="followings-count">{{ user.followings.all|length }}</p>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">following list</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              {% if not user.followings.all.count %}
+                <p>팔로우한 사람이 없어요</p>
+              {% else %}
+                {% for following in user.followings.all %}
+                <a href="{% url 'accounts:mypage' following.username %}" class="text-decoration-none fw-bold text-dark">{{ following.username }}</a>
+                <br>
+                {% endfor %}
+              {% endif %}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="border mx-auto p-3" style="width: 80%;">
+    <h3 class="fs-3">{{ request.user }}</h3>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const form = document.querySelector('#follow-form')
+  form.addEventListener('submit', function (event) {
+    event.preventDefault()
+    const userId = event.target.dataset.userId
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+    axios({
+      method: 'post',
+      url: `/accounts/${userId}/follow/`,
+      headers: {'X-CSRFToken': csrftoken,},
+    }) 
+    .then((response) => {
+      const isFollowed = response.data.is_followed
+      const followBtn = document.querySelector('#follow-form > input[type=submit]')
+      if (isFollowed === true) {
+        followBtn.value = '언팔로우'
+      } else {
+        followBtn.value = '팔로우'
+      }
+      const followersCountTag = document.querySelector('#followers-count')
+      const followingsCountTag = document.querySelector('#followings-count')
+      const followersCount = response.data.followers_count
+      const followingsCount = response.data.followings_count
+      followersCountTag.innerText = followersCount
+      followingsCountTag.innerText = followingsCount
+    })
+    .catch((error) => {
+      console.log(error.response)
+      })
+  })
+</script>
+{% endblock %}
