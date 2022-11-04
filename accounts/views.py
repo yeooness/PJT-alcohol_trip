@@ -27,12 +27,12 @@ def logout(request):
 def naver_callback(request):
     return render(request, 'accounts/naver_callback.html')
 
-def userpage(request, username):
-    user = User.objects.get(username=username)
-    profile_image = user.profile_image
-    username = user.username
+def userpage(request, pk):
+    request_user = User.objects.get(pk=pk)
+    profile_image = request_user.profile_image
+    username = request_user.username
     context = {
-        'user': user,
+        'request_user': request_user,
         'profile_image': profile_image,
         'username': username,
     }
@@ -75,14 +75,16 @@ def signup(request):
     return render(request, 'accounts/signup.html', context)
 
 def id_check(request):
+    print(666666666666666666666666666)
     jsonObject = json.loads(request.body)
     # user = User()
     username = jsonObject.get('username')
+    print(111111111111111111111111)
+    username = "k" + str(username)
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
     else:
         username = jsonObject.get('username')
-        username = "k" + str(username)
         email = jsonObject.get('email')
         profile_image = jsonObject.get('profile_image')
         user = User.objects.create(username=username, email=email, profile_image=profile_image)
@@ -90,23 +92,6 @@ def id_check(request):
     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     print('아아아아')
     return JsonResponse({'username': user.username, 'email': user.email})
-
-def id_check_naver(request):
-    jsonObject = json.loads(request.body)
-    username = jsonObject.get('id')
-    users = User.objects.filter(username=username)
-    if User.objects.filter(username=username).exists():
-        user = User.objects.get(username=username)
-    else:
-        username = jsonObject.get('id')
-        username = "n" + str(username)
-        email = jsonObject.get('email')
-        user = User.objects.create(username=username, email=email)
-        user.save()
-    auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-    print('아아아아')
-    return JsonResponse({'username': user.username, 'email': user.email})
-
 
 def id_check_naver(request):
     jsonObject = json.loads(request.body)

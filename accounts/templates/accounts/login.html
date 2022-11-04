@@ -85,7 +85,7 @@
           resultdiv += '<h4>profile_image: '+profile_image+'<h4>'
           resultdiv += '<h4>gender: '+gender+'<h4>'
           $('#result').append(resultdiv);
-          
+          console.log(111111111111111)
           const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
           axios({
             method: 'post',
@@ -93,7 +93,8 @@
             headers: {'X-CSRFToken': csrftoken},
             data: {'username': id, 'email': email, 'profile_image': profile_image,}
             }).then(response => {
-            location.reload();
+              console.log(2222222222222222)
+            // location.reload();
             // window.location.href = 'http://localhost:8000/bars/'; // 이동할 url
             })
         },

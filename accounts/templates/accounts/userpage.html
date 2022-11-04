@@ -1,30 +1,32 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-{ % bootstrap_css % }
-{ % bootstrap_javascript % }
 {% load static %}
+{ % bootstrap_css % }
 {% block content %}
 <div class="m-5" style="600px;">
   <div class="d-flex border mx-auto p-3" style="width: 80%;">
   {% if profile_image %}
-    <div class="profile-crop"><img class="profile-image rounded-circle" src="{{ profile_image }}" alt=""></div>
+    <div class="profile-crop"><img class="profile-image rounded-circle" src="{{ request_user.profile_image }}" alt=""></div>
   {% endif %}
   <div class="p-3">
-    <h3 class="fs-3">{{ username }}</h3>
-
-    <form id="follow-form" data-user-id="{{ user.pk }}">
-      {% csrf_token %}
-      {% if request.user in user.followers.all %}
-        <input type="submit" value="unfollow" class="btn btn-outline-dark">
-      {% else %}
-        <input type="submit" value="follow" class="btn btn-dark">
+    <h3 class="fs-3">{{ request_user.username }}</h3>
+    {% if request.user.is_authenticated %}
+      {% if request.user != request_user %}
+        <form id="follow-form" data-user-id="{{ request_user.pk }}">
+          {% csrf_token %}
+          {% if request.user in request_user.followers.all %}
+            <input type="submit" value="unfollow" class="btn btn-outline-dark">
+          {% else %}
+            <input type="submit" value="follow" class="btn btn-dark">
+          {% endif %}
+        </form>
       {% endif %}
-    </form>
+    {% endif %}
 
     <div class="d-flex justify-content-center my-2">
       <div data-bs-toggle="modal" data-bs-target="#exampleModal1" class="me-4 border p-3" style="cursor : pointer;">
         <p>follower</p>
-        <p id="followers-count" class="mb-0">{{ user.followers.all|length }}</p>
+        <p id="followers-count" class="mb-0">{{ request_user.followers.all|length }}</p>
       </div>
       <!-- Modal -->
       <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -35,11 +37,11 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              {% if not user.followers.all.count %}
+              {% if not request_user.followers.all.count %}
                 <p>팔로우한 사람이 없어요</p>
               {% else %}
-                {% for follower in user.followers.all %}
-                  <a href="{% url 'accounts:mypage' follower.username %}" class="text-decoration-none fw-bold text-dark">{{ follower.username }}</a>
+                {% for follower in request_user.followers.all %}
+                  <a href="{% url 'accounts:userpage' follower.pk %}" class="text-decoration-none fw-bold text-dark">{{ follower.username }}</a>
                   <br>
                 {% endfor %}
               {% endif %}
@@ -52,7 +54,7 @@
       </div>
       <div data-bs-toggle="modal" data-bs-target="#exampleModal2" class="me-4 border p-3" style="cursor : pointer;">
         <p>following</p>
-        <p id="followings-count">{{ user.followings.all|length }}</p>
+        <p id="followings-count">{{ request_user.followings.all|length }}</p>
       </div>
       <!-- Modal -->
       <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -63,11 +65,11 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              {% if not user.followings.all.count %}
+              {% if not request_user.followings.all.count %}
                 <p>팔로우한 사람이 없어요</p>
               {% else %}
-                {% for following in user.followings.all %}
-                <a href="{% url 'accounts:mypage' following.username %}" class="text-decoration-none fw-bold text-dark">{{ following.username }}</a>
+                {% for following in request_user.followings.all %}
+                <a href="{% url 'accounts:userpage' following.pk %}" class="text-decoration-none fw-bold text-dark">{{ following.username }}</a>
                 <br>
                 {% endfor %}
               {% endif %}
@@ -82,7 +84,19 @@
   </div>
   </div>
   <div class="border mx-auto p-3" style="width: 80%;">
-    <h3 class="fs-3">{{ request.user }}</h3>
+    <div class="d-flex" style="width: 100%;">
+      <div style="width: 33%;">즐겨찾기</div>
+      <div style="width: 33%;">글</div>
+      <div style="width: 33%;">댓글</div>
+    </div>
+    <div class=" d-flex p-2">
+      <div class="border" style="width: 5rem; height: 5rem;">hi</div>
+      <div class="border" style="width: 5rem; height: 5rem;">hello</div>
+      <div class="border" style="width: 5rem; height: 5rem;">world</div>
+    </div>
+    <div>
+
+    </div>
   </div>
 </div>
 
@@ -102,9 +116,9 @@
       const isFollowed = response.data.is_followed
       const followBtn = document.querySelector('#follow-form > input[type=submit]')
       if (isFollowed === true) {
-        followBtn.value = '언팔로우'
+        followBtn.value = 'unfollow'
       } else {
-        followBtn.value = '팔로우'
+        followBtn.value = 'follow'
       }
       const followersCountTag = document.querySelector('#followers-count')
       const followingsCountTag = document.querySelector('#followings-count')

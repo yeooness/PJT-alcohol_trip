@@ -3,7 +3,6 @@
 {% load django_bootstrap5 %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -14,7 +13,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <scrip src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script defer src ="{% static 'js/script.js' %}"></script>
 
 <div>
   <h1>{{ restaurant.name }}</h1>
@@ -38,7 +36,7 @@
     {% else %}
     <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart" style="cursor : pointer;"></i>
     {% endif %}
-    <span>{{ restaurant.like_users.count }}</span>
+    <span id="like-count">{{ restaurant.like_users.count }}</span>
   {% endif %}
 
 
@@ -305,4 +303,31 @@
       리뷰 작성하기
     </a>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // 좋아요 비동기
+  const likeBtn = document.querySelector('#like-btn')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+  likeBtn.addEventListener('click', function(event) {
+    console.log('됩니다')
+    axios({
+      method: 'post',
+      url: `/bars/${event.target.dataset.restaurantId}/restaurant_like/`,
+      headers: {'X-CSRFToken': csrftoken}
+    })
+    .then(response => {
+      if (response.data.isLiked === true) {
+        event.target.classList.add('bi-heart-fill')
+        event.target.classList.remove('bi-heart')
+      } else {
+        event.target.classList.add('bi-heart')
+        event.target.classList.remove('bi-heart-fill')
+      }
+      const likeCount = document.querySelector('#like-count')
+      likeCount.innerText = response.data.likeCount
+    })
+  })
+
+  </script>
   {% endblock %}
