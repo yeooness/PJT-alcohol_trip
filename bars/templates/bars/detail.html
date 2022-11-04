@@ -388,7 +388,7 @@
 {% for review in reviews %}
   <div class="d-flex justify-content-between">
     <div class="d-flex">
-      <p class="fw-bold">{{ review.user.username }}</p>
+      <a href="{% url 'accounts:userpage' review.user.pk %}"><p class="fw-bold">{{ review.user.username }}</p></a>
     </div>
     <div class="">
       <p class="m-0">{{ review.updated_at }}</p>
@@ -443,12 +443,12 @@
     </div>
   </div>
     <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop-{{ review.id }}">
     댓글 달기
   </button>
 
   <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="staticBackdrop-{{ review.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -523,11 +523,11 @@
   {% endfor %}
 </div>
 
+{% endfor %}
 <div class="text-end me-5">
   <a class="btn btn-primary" href="{% url 'bars:review' restaurant.pk %}">
     리뷰 작성하기
   </a>
 </div>
-
 {% endblock %}
 
