@@ -25,7 +25,6 @@ def detail(request, restaurant_pk):
         "reviews": reviews,
         "comment_form": comment_form,
         # "comments": reviews.comment_set.all(),
-        # "comments": comments,
     }
     return render(request, "bars/detail.html", context)
 
