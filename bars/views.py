@@ -5,21 +5,26 @@ from .models import Restaurant, Review, Comment
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 
-
+# limit to 8 cards 
 def index(request):
-    restaurants = Restaurant.objects.all()
+    restaurants = Restaurant.objects.all()[:8]
     context = {
         "restaurants": restaurants,
     }
     return render(request, "bars/index.html", context)
 
 
-def detail(request, pk):
-    restaurant = Restaurant.objects.get(pk=pk)
-    reviews = Review.objects.order_by("-pk")
+def detail(request, restaurant_pk):
+    restaurant = Restaurant.objects.get(pk=restaurant_pk)
+    # review = request.POST.get("review")
+    reviews = Review.objects.filter(restaurant_id=restaurant_pk)
+    # comments = Comment.objects.filter(review_id=review)
+    comment_form = CommentForm
     context = {
         "restaurant": restaurant,
         "reviews": reviews,
+        "comment_form": comment_form,
+        # "comments": reviews.comment_set.all(),
     }
     return render(request, "bars/detail.html", context)
 
@@ -33,7 +38,7 @@ def review(request, pk):
             review.user = request.user
             review.restaurant_id = pk
             review.save()
-            return redirect("bars:index")
+            return redirect("bars:detail", pk)
     else:
         review_form = ReviewForm()
     context = {
@@ -69,15 +74,22 @@ def delete(request, restaurant_pk, review_pk):
         return HttpResponseForbidden
 
 
-def comment(request, pk):
-    review = Review.objects.get(pk=pk)
+def comment_create(request, restaurant_pk):
+    review = request.POST.get("review")
+    review_pk = Review.objects.get(pk=review)
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
-        comment.review = review
-        comment.user = request.user
+        comment.review = review_pk
+        comment.user_id = request.user.pk
         comment.save()
-    return redirect("bars:detail", review.pk)
+    return redirect("bars:detail", restaurant_pk)
+
+
+def comment_delete(request, restaurant_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    comment.delete()
+    return redirect("bars:detail", restaurant_pk)
 
 
 def like(request, pk):
