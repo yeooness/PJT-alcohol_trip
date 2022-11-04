@@ -5,7 +5,7 @@ from .models import Restaurant, Review, Comment
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 
-# limit to 8 cards 
+# limit to 8 cards
 def index(request):
     restaurants = Restaurant.objects.all()[:8]
     context = {
@@ -80,7 +80,7 @@ def comment_create(request, restaurant_pk, review_pk):
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
         comment.review = review
-        comment.user= request.user
+        comment.user = request.user
         comment.save()
     # print(comment.review)
     # print(review_pk)
@@ -93,7 +93,7 @@ def comment_delete(request, restaurant_pk, comment_pk):
     return redirect("bars:detail", restaurant_pk)
 
 
-def like(request, pk):
+def restaurant_like(request, pk):
     restaurant = Restaurant.objects.get(pk=pk)
     if request.user in restaurant.like_users.all():
         restaurant.like_users.remove(request.user)
@@ -102,3 +102,13 @@ def like(request, pk):
         restaurant.like_users.add(request.user)
         # is_liked = True
     return redirect("bars:detail", pk)
+
+
+def review_like(request, restaurant_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
+    if request.user in review.like_usersreview.all():
+        review.like_usersreview.remove(request.user)
+    else:
+        review.like_usersreview.add(request.user)
+    print("오키")
+    return redirect("bars:detail", restaurant_pk)
