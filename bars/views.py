@@ -16,16 +16,15 @@ def index(request):
 
 def detail(request, restaurant_pk):
     restaurant = Restaurant.objects.get(pk=restaurant_pk)
-    review = request.POST.get("review")
     reviews = Review.objects.filter(restaurant_id=restaurant_pk)
-    comments = Comment.objects.filter(review_id=review)
-    comment_form = CommentForm
+    # comments = Comment.objects.filter(review_id=review)
+    print("review_id")
+    comment_form = CommentForm()
     context = {
         "restaurant": restaurant,
         "reviews": reviews,
         "comment_form": comment_form,
         # "comments": reviews.comment_set.all(),
-        "comments": comments,
     }
     return render(request, "bars/detail.html", context)
 
