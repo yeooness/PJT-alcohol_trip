@@ -27,11 +27,12 @@ def logout(request):
 def naver_callback(request):
     return render(request, 'accounts/naver_callback.html')
 
-def userpage(request, pk):
-    user = User.objects.get(pk=pk)
+def userpage(request, username):
+    user = User.objects.get(username=username)
     profile_image = user.profile_image
     username = user.username
     context = {
+        'user': user,
         'profile_image': profile_image,
         'username': username,
     }
@@ -40,6 +41,8 @@ def userpage(request, pk):
 def follow(request, pk):
     if request.user.is_authenticated:
         user = User.objects.get(pk=pk)
+        print(user.pk)
+        print(user)
         if user != request.user:
             if user.followers.filter(pk=request.user.pk).exists():
                 user.followers.remove(request.user)

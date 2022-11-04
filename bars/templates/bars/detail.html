@@ -171,7 +171,7 @@
 {% for review in reviews %}
   <div class="d-flex justify-content-between">
     <div class="d-flex">
-      <a href="{% url 'accounts:userpage' review.user.pk %}"><p class="fw-bold">{{ review.user.username }}</p></a>
+      <a href="{% url 'accounts:userpage' review.user.username %}"><p class="fw-bold">{{ review.user.username }}</p></a>
     </div>
     <div class="">
       <p class="m-0">{{ review.updated_at }}</p>
@@ -227,7 +227,7 @@
   </div>
     <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop-{{ review.id }}">
-    댓글 달기ll
+    댓글 달기
   </button>
 
   <!-- Modal -->
