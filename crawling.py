@@ -131,5 +131,6 @@ def add_data():
 # DB 저장 함수 강제 실행(임시로 실행)
 
 search = input("검색어를 입력해주세요! >> ")
+
 naverMapCrawling(search)
 add_data()
