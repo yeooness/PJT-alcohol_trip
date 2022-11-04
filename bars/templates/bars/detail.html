@@ -271,7 +271,10 @@
     {% csrf_token %}
     {% bootstrap_form comment_form layout='inline'%}
     <input type="hidden" name="review" value={{ review.id }}>
-    {% bootstrap_button button_type="submit" content="등록" button_class="btn-primary" %}
+    <br>
+    <div class="d-flex justify-content-center">
+      {% bootstrap_button button_type="submit" content="등록" button_class="btn-primary" %}
+    </div>
   </form>
   <hr>
 
