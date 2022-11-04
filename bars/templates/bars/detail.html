@@ -8,165 +8,12 @@
 
 {% block content %}
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css"
-  href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>     
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
 <div>
-
-
-  <h1>{{ restaurant.name }}</h1>
-  <hr> <br>
-
-  <div>
-    <div class="d-flex justify-content-between m-0 align-items-center">
-      <p>주소: {{ restaurant.location }}</p>
-      <p>전화번호: {{ restaurant.contact }}</p>
-    </div>
-    <p>영업시간: {{ restaurant.hours }}</p>
-    <p>주차 가능 여부: {{ restaurant.parking }}</p>
-  </div>
-
-
-  <p>좋아요 개수</p>
-  {% if request.user.is_authenticated %}
-  <a class="like-heart" href="{% url 'bars:like' restaurant.pk %}">
-
-
-    {% if request.user in restaurant.like_users.all %}
-    <i class="bi bi-heart-fill"></i>
-    {% else %}
-    <i class="bi bi-heart"></i>
-    {% endif %}</a>{{ restaurant.like_users.count }}</span>
-
-  {% endif %}
-
-
-  <section class="pt-5 pb-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-6">
-          <h3 class="mb-3">Carousel cards title </h3>
-        </div>
-        <div class="col-6 text-right">
-          <a class="btn btn-primary mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
-            <i class="fa fa-arrow-left"></i>
-          </a>
-          <a class="btn btn-primary mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
-            <i class="fa fa-arrow-right"></i>
-          </a>
-        </div>
-        <div class="col-12">
-          <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="row">
-
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img class="img-fluid" alt="100%x280"
-                        src="https://images.unsplash.com/photo-1532781914607-2031eca2f00d?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=7c625ea379640da3ef2e24f20df7ce8d">
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                      </div>
-
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img class="img-fluid" alt="100%x280"
-                        src="https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=42b2d9ae6feb9c4ff98b9133addfb698">
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img class="img-fluid" alt="100%x280"
-                        src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=3d2e8a2039c06dd26db977fe6ac6186a">
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="row">
-
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img class="img-fluid" alt="100%x280"
-                        src="https://images.unsplash.com/photo-1532771098148-525cefe10c23?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=3f317c1f7a16116dec454fbc267dd8e4">
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                      </div>
-
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img class="img-fluid" alt="100%x280"
-                        src="https://images.unsplash.com/photo-1532715088550-62f09305f765?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ebadb044b374504ef8e81bdec4d0e840">
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img class="img-fluid" alt="100%x280"
-                        src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=0754ab085804ae8a3b562548e6b4aa2e">
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="row">
-
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img class="img-fluid" alt="100%x280"
-                        src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ee8417f0ea2a50d53a12665820b54e23">
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                      </div>
-
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img class="img-fluid" alt="100%x280"
-                        src="https://images.unsplash.com/photo-1532777946373-b6783242f211?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=8ac55cf3a68785643998730839663129">
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-                      </div>
-
   <h1>{{ restaurant.name }}</h1> <hr> <br>
 
 <div> 
@@ -286,17 +133,15 @@
                     <div class="card-body">
                       <h4 class="card-title">Special title treatment</h4>
                       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
                     </div>
                   </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img class="img-fluid" alt="100%x280"
-                        src="https://images.unsplash.com/photo-1532763303805-529d595877c5?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=5ee4fd5d19b40f93eadb21871757eda6">
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <div class="card">
+                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532763303805-529d595877c5?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=5ee4fd5d19b40f93eadb21871757eda6">
+                    <div class="card-body">
+                      <h4 class="card-title">Special title treatment</h4>
+                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                     </div>
                   </div>
                 </div>
@@ -306,80 +151,18 @@
         </div>
       </div>
     </div>
-  </section>
-
-
-  <div>
-    <h2>식당 상세 내용</h2>
-    <hr>
-    <div class="container" style="height: 300px;">
-      <form class="d-flex w-75 h-25">
-        <p>{{ restaurant.content }}</p>
-      </form>
-    </div>
   </div>
+</section>
 
 
+<div>
+  <h2>식당 상세 내용</h2> 
   <hr>
-
-  <div class="container mt-3">
-    <h2>리뷰</h2>
-    <hr>
-    {% for review in reviews %}
-    <div class="container mt-3">
-      <div class="d-flex justify-content-between">
-        <div class="d-flex">
-          <p class="fw-bold">{{ review.user.username }}</p>
-        </div>
-        <div class="">
-          <p class="m-0">{{ review.updated_at }}</p>
-          <div class="d-flex justify-content-end">
-            <p class="fw-bold m-0">{{ review.get_grade_display }}</p>
-          </div>
-        </div>
-      </div>
-      <p class="fw-bold">{{ review.title }}</p>
-      <p>{{ review.content }}</p>
-
-      <!-- 수정/삭제 -->
-      <div class="text-end">
-        <div class="d-flex justify-content-end">
-          <a class="btn btn-outline-primary" href="{% url 'bars:update' restaurant.pk review.pk %}">
-            <i class="fa-solid fa-pen"></i>
-          </a>
-          <!-- <div class="text-end me-5"> -->
-          <p>{{ comment.content }}</p>
-          {% comment %} 댓글 삭제 버튼 {% endcomment %}
-          <button type="submit" class="btn btn-outline-danger ms-2" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
-              viewbox="0 0 16 16">
-              <path
-                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-              <path fill-rule="evenodd"
-                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">주의!</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <p>정말 삭제를 원하시나요?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">잘못눌렀어!</button>
-                <a href="{% url 'bars:delete' restaurant.pk review.pk %}">
-                  <button type="button" class="btn btn-primary">정말 삭제를 원해!</button>
-                </a>
-              </div>
-
+  <div class="container" style="height: 300px;">
+    <form class="d-flex w-75 h-25">
+      <p>{{ restaurant.content }}</p>
+    </form>
+  </div>
 </div>
 <hr>
 
@@ -464,48 +247,11 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
               {% bootstrap_button button_type="submit" content="등록" button_class="btn-primary" %}
-
             </div>
           </form>
         </div>
       </div>
     </div>
-
-
-    <!-- 댓글 -->
-    <i class="bi bi-chat"></i>
-    {% if review.comment_set.all %}
-    {{ review.comment_set.all|length }}
-    {% endif %}
-
-    {% for comment in review.comment_set.all %}
-    <p>{{ comment.content }}</p>
-    <a href="{% url 'bars:comment_delete' restaurant.pk comment.pk %}">삭제</a>
-    <hr>
-    {% empty %}
-    <p>댓글이 없습니다.</p>
-    {% endfor %}
-
-
-    <form action="{% url 'bars:comment_create' restaurant.pk %}" method="POST">
-      {% csrf_token %}
-      {% bootstrap_form comment_form layout='inline'%}
-      <input type="hidden" name="review" value={{ review.id }}>
-      {% bootstrap_button button_type="submit" content="등록" button_class="btn-primary" %}
-    </form>
-    <hr>
-    {% endfor %}
-  </div>
-
-  <div class="text-end me-5">
-    <a class="btn btn-primary" href="{% url 'bars:review' restaurant.pk %}">
-      리뷰 작성하기
-    </a>
-  </div>
-
-
-  {% endblock %}
-  
   </div>
 
   <!-- 댓글 -->
@@ -530,4 +276,3 @@
   </a>
 </div>
 {% endblock %}
-
