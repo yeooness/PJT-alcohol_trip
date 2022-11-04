@@ -69,18 +69,22 @@
           id = result.id
           connected_at = result.connected_at
           kakao_account = result.kakao_account
+          console.log(kakao_account)
           $('#result').append(kakao_account);
 
           resultdiv="<h2>로그인 성공 !!"
           resultdiv += '<h4>id: '+id+'<h4>'
           resultdiv += '<h4>connected_at: '+connected_at+'<h4>'
+          profile_image = "";
           email ="";
           gender = "";
           if(typeof kakao_account != 'undefined'){
-        	  email = kakao_account.email;
+            email = kakao_account.email;
+            profile_image = kakao_account.profile.thumbnail_image_url;
         	  gender = kakao_account.gender;
           }
           resultdiv += '<h4>email: '+email+'<h4>'
+          resultdiv += '<h4>profile_image: '+profile_image+'<h4>'
           resultdiv += '<h4>gender: '+gender+'<h4>'
           $('#result').append(resultdiv);
           
@@ -89,10 +93,10 @@
             method: 'post',
             url: `/accounts/id_check/`,
             headers: {'X-CSRFToken': csrftoken},
-            data: {'username': id, 'email': email}
+            data: {'username': id, 'email': email, 'profile_image': profile_image,}
             }).then(response => {
-            // location.reload();
-            window.location.href = 'http://localhost:8000/bars/'; // 이동할 url
+            location.reload();
+            // window.location.href = 'http://localhost:8000/bars/'; // 이동할 url
             })
         },
         fail: function(error) {
