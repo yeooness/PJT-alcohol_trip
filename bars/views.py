@@ -4,6 +4,8 @@ from .forms import ReviewForm, CommentForm
 from .models import Restaurant, Review, Comment
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+import json
 
 # limit to 8 cards
 def index(request):
@@ -92,16 +94,20 @@ def comment_delete(request, restaurant_pk, comment_pk):
     comment.delete()
     return redirect("bars:detail", restaurant_pk)
 
-
+@login_required
 def restaurant_like(request, pk):
     restaurant = Restaurant.objects.get(pk=pk)
-    if request.user in restaurant.like_users.all():
+    if restaurant.like_users.filter(pk=request.user.pk).exists():
         restaurant.like_users.remove(request.user)
-        # is_liked = False
+        is_liked = False
     else:
         restaurant.like_users.add(request.user)
-        # is_liked = True
-    return redirect("bars:detail", pk)
+        is_liked = True
+    context = {
+        'isLiked' : is_liked,
+        'likeCount' : restaurant.like_users.count(),
+    }
+    return JsonResponse(context)
 
 
 def review_like(request, restaurant_pk, review_pk):
