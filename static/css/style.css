@@ -1,0 +1,11 @@
+.card-box{
+    display: flex;
+    flex-direction: colum;
+    width: calc((100% / 3) - 2rem);
+  }
+  
+  .card{
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+  }
