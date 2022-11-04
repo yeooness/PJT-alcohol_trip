@@ -18,9 +18,14 @@ urlpatterns = [
         name="delete",
     ),
     path(
-        "<int:restaurant_pk>/review/comment/",
+        "<int:restaurant_pk>/review/<int:review_pk>/comment/",
         views.comment_create,
         name="comment_create",
+    ),
+    path(
+        "<int:restaurant_pk>/review/comment/<int:comment_pk>/delete",
+        views.comment_delete,
+        name="comment_delete",
     ),
     path("<int:pk>/like", views.like, name="like"),
 ]

@@ -5,9 +5,9 @@ from .models import Restaurant, Review, Comment
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 
-
+# limit to 8 cards 
 def index(request):
-    restaurants = Restaurant.objects.all()
+    restaurants = Restaurant.objects.all()[:8]
     context = {
         "restaurants": restaurants,
     }
@@ -16,10 +16,10 @@ def index(request):
 
 def detail(request, restaurant_pk):
     restaurant = Restaurant.objects.get(pk=restaurant_pk)
+    # review = request.POST.get("review")
     reviews = Review.objects.filter(restaurant_id=restaurant_pk)
     # comments = Comment.objects.filter(review_id=review)
-    print("review_id")
-    comment_form = CommentForm()
+    comment_form = CommentForm
     context = {
         "restaurant": restaurant,
         "reviews": reviews,
@@ -74,15 +74,22 @@ def delete(request, restaurant_pk, review_pk):
         return HttpResponseForbidden
 
 
-def comment_create(request, restaurant_pk):
-    review = request.POST.get("review")
-    review_pk = Review.objects.get(pk=review)
+def comment_create(request, restaurant_pk, review_pk):
+    review = Review.objects.get(pk=review_pk)
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
-        comment.review = review_pk
-        comment.user_id = request.user.pk
+        comment.review = review
+        comment.user= request.user
         comment.save()
+    # print(comment.review)
+    # print(review_pk)
+    return redirect("bars:detail", restaurant_pk)
+
+
+def comment_delete(request, restaurant_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    comment.delete()
     return redirect("bars:detail", restaurant_pk)
 
 
