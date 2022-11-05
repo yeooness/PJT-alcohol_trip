@@ -33,4 +33,5 @@ urlpatterns = [
         views.review_like,
         name="review_like",
     ),
+    path("search/", views.search, name="search"),
 ]
