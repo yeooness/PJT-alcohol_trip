@@ -6,6 +6,8 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
+from django.db.models import Q
+from django.core.paginator import Paginator  
 
 # limit to 8 cards
 def index(request):
@@ -118,3 +120,26 @@ def review_like(request, restaurant_pk, review_pk):
         review.like_usersreview.add(request.user)
     print("오키")
     return redirect("bars:detail", restaurant_pk)
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        restaurants = Restaurant.objects.filter(
+            Q(name__contains=searched)|
+            Q(category__contains=searched)|
+            Q(address__contains=searched)
+            ).distinct().order_by('name')
+        restaurants_count = restaurants.count()
+        # 입력 파라미터
+        page = request.GET.get("page", "1")
+        # 페이징
+        paginator = Paginator(restaurants, 16)
+        page_obj = paginator.get_page(page)
+        context = {
+            'searched': searched,
+            'restaurants_count': restaurants_count,
+            'restaurants': page_obj,
+        }
+        return render(request, 'bars/search.html', context)
+    else:
+        return render(request, 'bars/search.html', {})
