@@ -23,6 +23,7 @@
     
 	let body = $('body');
 	body.append('로그인 성공!');
+  body.append(profile_image);
   axios({
     method: 'post',
     url: `/accounts/id_check_naver/`,

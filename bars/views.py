@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 
 # limit to 8 cards
 def index(request):
-    restaurants = Restaurant.objects.all()[:8]
+    restaurants = Restaurant.objects.all().order_by("-like_count")[:8]
     context = {
         "restaurants": restaurants,
     }
@@ -20,15 +20,12 @@ def index(request):
 
 def detail(request, restaurant_pk):
     restaurant = Restaurant.objects.get(pk=restaurant_pk)
-    # review = request.POST.get("review")
     reviews = Review.objects.filter(restaurant_id=restaurant_pk)
-    # comments = Comment.objects.filter(review_id=review)
     comment_form = CommentForm
     context = {
         "restaurant": restaurant,
         "reviews": reviews,
         "comment_form": comment_form,
-        # "comments": reviews.comment_set.all(),
     }
     return render(request, "bars/detail.html", context)
 
@@ -105,6 +102,9 @@ def restaurant_like(request, pk):
     else:
         restaurant.like_users.add(request.user)
         is_liked = True
+    likeCount = restaurant.like_users.count()
+    restaurant.like_count = likeCount
+    restaurant.save()
     context = {
         'isLiked' : is_liked,
         'likeCount' : restaurant.like_users.count(),
@@ -122,24 +122,57 @@ def review_like(request, restaurant_pk, review_pk):
     return redirect("bars:detail", restaurant_pk)
 
 def search(request):
-    if request.method == "POST":
-        searched = request.POST['searched']
-        restaurants = Restaurant.objects.filter(
-            Q(name__contains=searched)|
-            Q(category__contains=searched)|
-            Q(address__contains=searched)
-            ).distinct().order_by('name')
-        restaurants_count = restaurants.count()
-        # 입력 파라미터
-        page = request.GET.get("page", "1")
-        # 페이징
-        paginator = Paginator(restaurants, 16)
-        page_obj = paginator.get_page(page)
-        context = {
-            'searched': searched,
-            'restaurants_count': restaurants_count,
-            'restaurants': page_obj,
-        }
-        return render(request, 'bars/search.html', context)
-    else:
-        return render(request, 'bars/search.html', {})
+    searched = request.GET['searched']
+    restaurants = Restaurant.objects.filter(
+        Q(name__contains=searched)|
+        Q(category__contains=searched)|
+        Q(address__contains=searched)
+        ).distinct().order_by('name')
+    restaurants_count = restaurants.count()
+    # 입력 파라미터
+    page = request.GET.get("page", "1")
+    # 페이징
+    paginator = Paginator(restaurants, 16)
+    page_obj = paginator.get_page(page)
+    context = {
+        'searched': searched,
+        'restaurants_count': restaurants_count,
+        'restaurants': page_obj,
+    }
+    return render(request, 'bars/search.html', context)
+
+def category(request, category):
+    category_table = {
+        "beer": "맥주, 호프",
+        "izakaya": "이자카야",
+        "pojangmacha": "포장마차",
+        "restaurant": "요리주점",
+        "bar": "바(BAR)",
+    }
+    k_category = category_table.get(category)
+    restaurants = Restaurant.objects.filter(category=k_category)
+    print(restaurants)
+    context = {
+        "k_category": k_category,
+        "restaurants": restaurants,
+    }
+    return render(request, "bars/category.html", context)
+
+def region(request, region):
+    region_table = {
+        "seoul": "서울",
+        "gyeonggi": "경기",
+        "incheon": "인천",
+        "chungcheong": "충청",
+        "jeolla": "전라도",
+        "gangwon": "강원",
+        "gyeongsang": "경상",
+        "jeju": "jeju",
+    }
+    k_region = region_table.get(region)
+    restaurants = Restaurant.objects.filter(address__contains=k_region)
+    context = {
+        "k_region": k_region,
+        "restaurants": restaurants,
+    }
+    return render(request, 'bars/region.html', context)
