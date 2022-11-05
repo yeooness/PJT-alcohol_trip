@@ -75,16 +75,31 @@ def signup(request):
     return render(request, 'accounts/signup.html', context)
 
 def id_check(request):
-    print(666666666666666666666666666)
     jsonObject = json.loads(request.body)
     # user = User()
     username = jsonObject.get('username')
-    print(111111111111111111111111)
     username = "k" + str(username)
+    print(username)
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
     else:
-        username = jsonObject.get('username')
+        email = jsonObject.get('email')
+        profile_image = jsonObject.get('profile_image')
+        user = User.objects.create(username=username, email=email, profile_image=profile_image)
+        user.save()
+    auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+    print('아아아아')
+    return JsonResponse({'username': user.username, 'email': user.email, 'profile_image':user.profile_image.url })
+
+def id_check_naver(request):
+    jsonObject = json.loads(request.body)
+    # user = User()
+    username = jsonObject.get('id')
+    username = "n" + str(username)
+    print(username)
+    if User.objects.filter(username=username).exists():
+        user = User.objects.get(username=username)
+    else:
         email = jsonObject.get('email')
         profile_image = jsonObject.get('profile_image')
         user = User.objects.create(username=username, email=email, profile_image=profile_image)
@@ -92,19 +107,3 @@ def id_check(request):
     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     print('아아아아')
     return JsonResponse({'username': user.username, 'email': user.email})
-
-def id_check_naver(request):
-    jsonObject = json.loads(request.body)
-    # user = User()
-    username = jsonObject.get('id')
-    if User.objects.filter(username=username).exists():
-        user = User.objects.get(username=username)
-    else:
-        username = "n" + str(username)
-        email = jsonObject.get('email')
-        profile_image = jsonObject.get('profile_image')
-        user = User.objects.create(username=username, email=email, profile_image=profile_image)
-        user.save()
-    auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-    print('아아아아')
-    return JsonResponse({'username': user.username, 'email': user.email, 'profile_image':profile_image})

@@ -76,11 +76,32 @@ body {
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="#">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">지역 별 맛집</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              지역으로 술집 찾기
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'bars:region' "seoul" %}">서울</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "gyeonggi" %}">경기</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "incheon" %}">인천</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "chungcheong" %}">충청</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "jeolla" %}">전라</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "gangwon" %}">강원</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "gyeongsang" %}">경상</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "jeju" %}">제주</a></li>
+            </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">종류 별 맛집</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              카테고리로 술집 찾기
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'bars:category' "beer" %}">맥주, 호프</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:category' "izakaya" %}">이자카야</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:category' "pojangmacha" %}">포장마차</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:category' "restaurant" %}">요리주점</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:category' "bar" %}">바(BAR)</a></li>
+            </ul>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

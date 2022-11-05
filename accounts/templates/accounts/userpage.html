@@ -3,10 +3,10 @@
 {% load static %}
 { % bootstrap_css % }
 {% block content %}
-<div class="m-5" style="600px;">
-  <div class="d-flex border mx-auto p-3" style="width: 80%;">
+<div class="m-5">
+  <div class="d-flex border mx-auto p-5" style="width: 80%; box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 20%); border-radius: 15px; ">
   {% if profile_image %}
-    <div class="profile-crop"><img class="profile-image rounded-circle" src="{{ request_user.profile_image }}" alt=""></div>
+    <div class="profile-crop"><img class="profile-image rounded-circle align-middle" src="{{ request_user.profile_image }}" style="width: 7rem; height: 7rem;" alt=""></div>
   {% endif %}
   <div class="p-3">
     <h3 class="fs-3">{{ request_user.username }}</h3>
@@ -66,7 +66,7 @@
             </div>
             <div class="modal-body">
               {% if not request_user.followings.all.count %}
-                <p>팔로우한 사람이 없어요</p>
+                <p>팔로잉한 사람이 없어요</p>
               {% else %}
                 {% for following in request_user.followings.all %}
                 <a href="{% url 'accounts:userpage' following.pk %}" class="text-decoration-none fw-bold text-dark">{{ following.username }}</a>
@@ -83,19 +83,30 @@
     </div>
   </div>
   </div>
-  <div class="border mx-auto p-3" style="width: 80%;">
-    <div class="d-flex" style="width: 100%;">
-      <div style="width: 33%;">즐겨찾기</div>
-      <div style="width: 33%;">글</div>
-      <div style="width: 33%;">댓글</div>
+  <div class="row mx-auto mt-5" style="width: 80%;">
+    <div class="col p-3" style="box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 20%); border-radius: 15px; ">
+      <p>즐겨찾는 식당</p>
+      {% for restaurant in request_user.like_restaurants.all %}
+        <a href="{% url 'bars:detail' restaurant.pk %}">
+          <p>{{ restaurant.name }}</p>
+        </a>
+      {% endfor %}
     </div>
-    <div class=" d-flex p-2">
-      <div class="border" style="width: 5rem; height: 5rem;">hi</div>
-      <div class="border" style="width: 5rem; height: 5rem;">hello</div>
-      <div class="border" style="width: 5rem; height: 5rem;">world</div>
+    <div class="col p-3 mx-4" style="box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 20%); border-radius: 15px; ">
+      <p>쓴 리뷰</p>
+      {% for review in request_user.review_set.all %}
+        <a href="{% url 'bars:detail' review.restaurant_id %}">
+          <p>{{review.content}}</p>
+        </a>
+        {% endfor %}
     </div>
-    <div>
-
+    <div class="col p-3" style="box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 20%); border-radius: 15px; ">
+      <p>쓴 댓글</p>
+      {% for comment in request_user.comment_set.all %}
+        <a href="{% url 'bars:detail' comment.review.restaurant_id %}">
+          <p>{{comment.content}}</p>
+        </a>
+        {% endfor %}
     </div>
   </div>
 </div>

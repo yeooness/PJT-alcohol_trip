@@ -20,16 +20,15 @@
 <!-- Box -->
 <div class="container">
   <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
-    <form class="d-flex w-75 h-25" role="search"  method="POST" action="{% url 'bars:search' %}">
-      {% csrf_token %}
-      <input class="form-control me-2" name="searched" type="search" placeholder="Search" aria-label="Search">
+    <form class="d-flex w-75 h-25" role="search"  method="GET" action="{% url 'bars:search' %}">
+      <input class="form-control me-2" name="searched" type="search" placeholder="술집 이름/카테고리/지역을 입력하세요" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
   </div>
 </div>
 
 <div class="container">
-  <h1 style="color: #CC5500;">Best 식당</h1>
+  <h1 style="color: #CC5500;">Best 술집</h1>
   <div class="row row-cols-1 row-cols-md-4 g-8">
     {% for restaurant in restaurants %}
     <div class="col">

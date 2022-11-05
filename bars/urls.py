@@ -34,4 +34,6 @@ urlpatterns = [
         name="review_like",
     ),
     path("search/", views.search, name="search"),
+    path("<category>/category/", views.category, name="category"),
+    path("<region>/region/", views.region, name="region"),
 ]

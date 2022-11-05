@@ -15,22 +15,23 @@
 <scrip src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <div>
-  <h1>{{ restaurant.name }}</h1>
+  <h1 id="name">{{ restaurant.name }}</h1>
   <hr> <br>
 
-  <div>
+  <div class="d-flex justify-content-between">
     <div class="justify-content-between m-0 align-items-center">
-      <p>주소: {{ restaurant.address }}</p>
+      <p>주소: <span id="addr">{{ restaurant.address }}</span></p>
       <p>카테고리: {{ restaurant.category }}</p>
       <p>전화번호: {{ restaurant.phone }}</p>
       <p>영업시간: {{ restaurant.hours }}</p>
       <p>지도 주소: <a href="{{ restaurant.map_url }}">바로가기!</a></p>
     </div>
+    <!-- 카카오맵 -->
+    <div id="map" style="width:50%;height:350px;"></div>
   </div>
 
   <p>좋아요 개수</p>
   {% if request.user.is_authenticated %}
-  {% comment %} < class="like-heart" href="{% url 'bars:restaurant_like' restaurant.pk %}"> {% endcomment %}
     {% if request.user in restaurant.like_users.all %}
     <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart-fill" style="cursor : pointer;"></i>
     {% else %}
@@ -308,13 +309,14 @@
   <script>
     // 좋아요 비동기
   const likeBtn = document.querySelector('#like-btn')
-  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
   likeBtn.addEventListener('click', function(event) {
     console.log('됩니다')
     axios({
       method: 'post',
       url: `/bars/${event.target.dataset.restaurantId}/restaurant_like/`,
-      headers: {'X-CSRFToken': csrftoken}
+      headers : {
+        'X-CSRFTOKEN' : '{{ csrf_token }}'
+       },
     })
     .then(response => {
       if (response.data.isLiked === true) {
@@ -330,4 +332,46 @@
   })
 
   </script>
+
+<!-- 카카오맵 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6a80656638a5303b90499a7641382145&libraries=services,clusterer,drawing"></script>
+
+<script>
+  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
+
+// 지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch($("#addr").text(), function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면 
+     if (status === kakao.maps.services.Status.OK) {
+
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
+
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">{{ restaurant.name }}</div>'
+        });
+        infowindow.open(map, marker);
+
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    } 
+});    
+</script>
   {% endblock %}
