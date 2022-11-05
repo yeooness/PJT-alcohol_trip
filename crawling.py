@@ -36,7 +36,7 @@ def naverMapCrawling(search):
     for url in my_url_list:
         cnt+=1
         driver.get(url)
-        time.sleep(3)
+        time.sleep(1)
         try:
             name = driver.find_element(By.CSS_SELECTOR, '.Fc1rA').text
         except:
@@ -100,7 +100,7 @@ def naverMapCrawling(search):
             "picture3": picture3,
             })
 
-        if cnt >= 30:
+        if cnt >= 10:
             break   
     # return datas
 

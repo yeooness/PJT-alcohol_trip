@@ -4,6 +4,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static './static/blog.css' %}" >
 {% endblock %}
 
 {% block content %}
@@ -12,19 +13,246 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>     
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<link href="../../../../dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 
-<div>
-  <h1>{{ restaurant.name }}</h1> <hr> <br>
 
-<div> 
-  <div class="justify-content-between m-0 align-items-center">
-    <p>주소: {{ restaurant.address }}</p> 
-    <p>카테고리: {{ restaurant.category }}</p> 
-    <p>전화번호: {{ restaurant.phone }}</p>
-    <p>영업시간: {{ restaurant.hours }}</p>
-    <p>지도 주소: <a href="{{ restaurant.map_url }}">바로가기!</a></p>
+<style>
+  .pop-out-card {
+  float: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px #bbb;
+  transition: all .2s;
+  font: normal 16px calibri;
+}
+.pop-out-card:hover {
+  box-shadow: 2px 12px 15px #999;
+}
+.pop-out-card.with-transform:hover {
+  transform: translateY(-2px);
+}
+
+.blog-header {
+  line-height: 1;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.blog-header-logo {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: 2.25rem;
+}
+
+.blog-header-logo:hover {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+.display-4 {
+  font-size: 2.5rem;
+}
+@media (min-width: 768px) {
+  .display-4 {
+    font-size: 3rem;
+  }
+}
+
+.nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 2.75rem;
+  overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  padding-bottom: 1rem;
+  margin-top: -1px;
+  overflow-x: auto;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-scroller .nav-link {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: .875rem;
+}
+
+.card-img-right {
+  height: 100%;
+  border-radius: 0 3px 3px 0;
+}
+
+.flex-auto {
+  -ms-flex: 0 0 auto;
+  -webkit-box-flex: 0;
+  flex: 0 0 auto;
+}
+
+.h-250 { height: 250px; }
+@media (min-width: 768px) {
+  .h-md-250 { height: 250px; }
+}
+
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+/*
+ * Blog name and description
+ */
+.blog-title {
+  margin-bottom: 0;
+  font-size: 2rem;
+  font-weight: 400;
+}
+.blog-description {
+  font-size: 1.1rem;
+  color: #999;
+}
+
+@media (min-width: 40em) {
+  .blog-title {
+    font-size: 3.5rem;
+  }
+}
+
+/* Pagination */
+.blog-pagination {
+  margin-bottom: 4rem;
+}
+.blog-pagination > .btn {
+  border-radius: 2rem;
+}
+
+/*
+ * Blog posts
+ */
+.blog-post {
+  margin-bottom: 4rem;
+}
+.blog-post-title {
+  margin-bottom: .25rem;
+  font-size: 2.5rem;
+}
+.blog-post-meta {
+  margin-bottom: 1.25rem;
+  color: #999;
+}
+
+/*
+ * Footer
+ */
+.blog-footer {
+  padding: 2.5rem 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: .05rem solid #e5e5e5;
+}
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}
+
+</style>
+
+
+<div class="row">
+  <div class="col-md-4 mb-0">
+    <div class="pop-out-card with-transform">
+      <img class="img-fluid" alt="100%x280" src="{{ restaurant.picture1 }}">
+    </div>
+  </div>
+  <div class="col-md-4 mb-0">
+    <div class="pop-out-card with-transform">
+      <img class="img-fluid" alt="100%x280" src="{{ restaurant.picture2 }}">
+    </div>
+  </div>
+  <div class="col-md-4 mb-0">
+    <div class="pop-out-card with-transform">
+      <img class="img-fluid" alt="100%x280" src="{{ restaurant.picture3 }}">
+    </div>
+  </div>    
+</div>
+
+
+<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+  <div class="col-md-6 px-0">
+    <h1 class="display-4 font-italic">{{ restaurant.name }}</h1>
   </div>
 </div>
+
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-8 blog-main">
+      <div class="blog-post">
+        <p class="blog-post-meta">{{ restaurant.like_users.count }} 좋아요 
+          <a class="btn btn-primary" href="{% url 'bars:review' restaurant.pk %}">
+          리뷰 작성하기
+          </a>
+        </p>
+        <hr>
+
+        <div> 
+          <div class="justify-content-between m-0 align-items-center">
+            <p>주소 :   {{ restaurant.address }} </p> 
+            <p>카테고리 :   {{ restaurant.category }}</p> 
+            <p>전화번호 :   {{ restaurant.phone }}</p>
+            <p>영업시간 :   {{ restaurant.hours }}</p>
+            <p>주소 :   {{ restaurant.address }}</p>
+            <p>지도: <a href="{{ restaurant.map_url }}">네이버 플레이스에서 위치 확인</a></p>
+          </div>
+        </div>
+
+
+        <div>
+          <h2>식당 상세 내용</h2> 
+          <hr>
+          <div class="container" style="height: 300px;">
+            <form class="d-flex w-75 h-25">
+              <p>{{ restaurant.content }}</p>
+            </form>
+          </div>
+        </div>
+        <hr>
+        <br>
+
+        <h2>{{ restaurant.name }} 리뷰</h2> 
+        <hr>
+        <div class="container mt-3">
+        {% for review in reviews %}
+          <div class="d-flex justify-content-between">
+            <div class="d-flex">
+              <a href="{% url 'accounts:userpage' review.user.pk %}"><p class="fw-bold">{{ review.user.username }}</p></a>
+            </div>
+            <div class="">
+              <p class="m-0">{{ review.updated_at }}</p>
+              <div class="d-flex justify-content-end">
+                <p class="fw-bold m-0">{{ review.get_grade_display }}</p>
+              </div>
+            </div>
+          </div>
+          
+          <p class="fw-bold">{{ review.title }}</p>
+          <p>{{ review.content }}</p>
+
+
+
+
+
+
 
 <p>좋아요 개수</p>
 {% if request.user.is_authenticated %}
@@ -37,157 +265,12 @@
 {% endif %}
 
 
-<section class="pt-5 pb-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-6">
-        <h3 class="mb-3">사진들</h3>
-      </div>
-      <div class="col-6 text-right">
-        <a class="btn btn-primary mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
-          <i class="fa fa-arrow-left"></i>
-        </a>
-        <a class="btn btn-primary mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
-          <i class="fa fa-arrow-right"></i>
-        </a>
-      </div>
-      <div class="col-12">
-        <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="row">
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532781914607-2031eca2f00d?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=7c625ea379640da3ef2e24f20df7ce8d">
-                    <div class="card-body">
-                      <h4 class="card-title">Special title treatment</h4>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=42b2d9ae6feb9c4ff98b9133addfb698">
-                    <div class="card-body">
-                      <h4 class="card-title">Special title treatment</h4>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=3d2e8a2039c06dd26db977fe6ac6186a">
-                    <div class="card-body">
-                      <h4 class="card-title">Special title treatment</h4>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row">
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532771098148-525cefe10c23?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=3f317c1f7a16116dec454fbc267dd8e4">
-                    <div class="card-body">
-                      <h4 class="card-title">Special title treatment</h4>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532715088550-62f09305f765?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ebadb044b374504ef8e81bdec4d0e840">
-                    <div class="card-body">
-                      <h4 class="card-title">Special title treatment</h4>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=0754ab085804ae8a3b562548e6b4aa2e">
-                    <div class="card-body">
-                      <h4 class="card-title">Special title treatment</h4>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row">
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ee8417f0ea2a50d53a12665820b54e23">
-                    <div class="card-body">
-                      <h4 class="card-title">Special title treatment</h4>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532777946373-b6783242f211?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=8ac55cf3a68785643998730839663129">
-                    <div class="card-body">
-                      <h4 class="card-title">Special title treatment</h4>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <img class="img-fluid" alt="100%x280" src="https://images.unsplash.com/photo-1532763303805-529d595877c5?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=5ee4fd5d19b40f93eadb21871757eda6">
-                    <div class="card-body">
-                      <h4 class="card-title">Special title treatment</h4>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<div>
-  <h2>식당 상세 내용</h2> 
-  <hr>
-  <div class="container" style="height: 300px;">
-    <form class="d-flex w-75 h-25">
-      <p>{{ restaurant.content }}</p>
-    </form>
-  </div>
-</div>
-<hr>
-
-<h2>리뷰 목록</h2> 
-<div class="container mt-3">
-{% for review in reviews %}
-  <div class="d-flex justify-content-between">
-    <div class="d-flex">
-      <p class="fw-bold">{{ review.user.username }}</p>
-    </div>
-    <div class="">
-      <p class="m-0">{{ review.updated_at }}</p>
-      <div class="d-flex justify-content-end">
-        <p class="fw-bold m-0">{{ review.get_grade_display }}</p>
-      </div>
-    </div>
-  </div>
-  <p class="fw-bold">{{ review.title }}</p>
-  <p>{{ review.content }}</p>
-
   <!-- 수정/삭제 -->
   <div class="text-end">
     <div class="d-flex justify-content-end">
       <a class="btn btn-outline-primary" href="{% url 'bars:update' restaurant.pk review.pk %}">
         <i class="fa-solid fa-pen"></i>
+
       </a>
       <!-- <div class="text-end me-5"> -->
       <p>{{ comment.content }}</p>
@@ -225,12 +308,12 @@
     </div>
   </div>
     <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    댓글 달기
+  <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#staticBackdrop-{{ review.id }}">
+    댓글 달기ll
   </button>
 
   <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="staticBackdrop-{{ review.pk }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -268,10 +351,24 @@
   {% endfor %}
 </div>
 
-<div class="text-end me-5">
+{% endfor %}
+<!-- <div class="text-end me-5">
   <a class="btn btn-primary" href="{% url 'bars:review' restaurant.pk %}">
     리뷰 작성하기
   </a>
-</div>
-
+</div> -->
+      <aside class="col-md-4 blog-sidebar">
+        <div class="p-3 mb-3 bg-light rounded">
+          <h4 class="font-italic">지도</h4>
+          <li><a href="{{ restaurant.map_url }}">네이버 플레이스에서 위치 확인</a></li>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
 {% endblock %}
+
+<!-- 좋아요를 누르면 특정 리뷰에 대한 좋아요가 아니라 모든 리뷰에 좋아요로 눌린다. -->
+<!-- 별점 평점 계산해주는 기능필요 -->
+<!-- 레스토랑 콘텐츠 내용 없음 -->
+<!-- 크롤링에서 레스토랑 컨텐츠와 리뷰를 크롤링해오지 않고 사진이 3개만 있음 -->
