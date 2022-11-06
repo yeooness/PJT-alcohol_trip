@@ -137,9 +137,9 @@ def search(request):
     paginator = Paginator(restaurants, 16)
     page_obj = paginator.get_page(page)
     context = {
-        'searched': searched,
-        'restaurants_count': restaurants_count,
-        'restaurants': page_obj,
+        "searched": searched,
+        "restaurants_count": restaurants_count,
+        "restaurants": page_obj,
     }
     return render(request, 'bars/search.html', context)
 
@@ -153,10 +153,16 @@ def category(request, category):
     }
     k_category = category_table.get(category)
     restaurants = Restaurant.objects.filter(category=k_category)
+    # 입력 파라미터
+    page = request.GET.get("page", "1")
+    # 페이징
+    paginator = Paginator(restaurants, 8)
+    page_obj = paginator.get_page(page)
     print(restaurants)
     context = {
         "k_category": k_category,
         "restaurants": restaurants,
+        "restaurants": page_obj,
     }
     return render(request, "bars/category.html", context)
 
@@ -169,12 +175,18 @@ def region(request, region):
         "jeolla": "전라도",
         "gangwon": "강원",
         "gyeongsang": "경상",
-        "jeju": "jeju",
+        "jeju": "제주",
     }
     k_region = region_table.get(region)
     restaurants = Restaurant.objects.filter(address__contains=k_region)
+    # 입력 파라미터
+    page = request.GET.get("page", "1")
+    # 페이징
+    paginator = Paginator(restaurants, 8)
+    page_obj = paginator.get_page(page)
     context = {
         "k_region": k_region,
         "restaurants": restaurants,
+        "restaurants": page_obj,
     }
     return render(request, 'bars/region.html', context)
