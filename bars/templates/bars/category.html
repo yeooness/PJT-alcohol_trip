@@ -20,5 +20,43 @@
       </div>
       {% endfor %}
     </div>
+    <!-- 페이징처리 시작 -->
+    <ul class="pagination justify-content-center">
+      <!-- 이전페이지 -->
+      {% if restaurants.has_previous %}
+      <li class="page-item">
+          <a class="page-link" href="?page={{ restaurants.previous_page_number }}&searched={{searched}}">이전</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+          <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+      </li>
+      {% endif %}
+      <!-- 페이지리스트 -->
+      {% for page_number in restaurants.paginator.page_range %}
+      {% if page_number >= restaurants.number|add:-3 and page_number <= restaurants.number|add:3 %}
+      {% if page_number == restaurants.number %}
+      <li class="page-item active" aria-current="page">
+          <a class="page-link" href="?page={{ page_number }}&searched={{searched}}">{{ page_number }}</a>
+      </li>
+      {% else %}
+      <li class="page-item">
+          <a class="page-link" href="?page={{ page_number }}&searched={{searched}}">{{ page_number }}</a>
+      </li>
+      {% endif %}
+      {% endif %}
+      {% endfor %}
+      <!-- 다음페이지 -->
+      {% if restaurants.has_next %}
+      <li class="page-item">
+          <a class="page-link" href="?page={{ restaurants.next_page_number }}&searched={{searched}}">다음</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+          <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+      </li>
+      {% endif %}
+  </ul>
+  <!-- 페이징처리 끝 -->
   </div>
 {% endblock %}
