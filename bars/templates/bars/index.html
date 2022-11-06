@@ -6,40 +6,44 @@
 {% endblock %}
 
 {% block content %}
-
 <style>
-  
 .card{
   margin-bottom: 20px;
 }
-
 </style>
-
-
 
 <!-- Box -->
 <div class="container">
   <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
     <form class="d-flex w-75 h-25" role="search"  method="GET" action="{% url 'bars:search' %}">
-      <input class="form-control me-2" name="searched" type="search" placeholder="술집 이름/카테고리/지역을 입력하세요" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
+      <input class="form-control me-2" style="font-size:30px;" name="searched" type="search" placeholder="술집 이름/카테고리/지역을 입력하세요" aria-label="Search">
+      <button type="submit" style="width:120px; border-radius:1rem;">
+        <lord-icon
+          src="https://cdn.lordicon.com/xfftupfv.json"
+          trigger="hover"
+          colors="primary:#121331"
+          style="width:75px; height:75px; position:relative; positon-top: 5px;">
+      </lord-icon>
+      </button>
     </form>
   </div>
 </div>
 
 <div class="container">
-  <h1 style="color: #CC5500;">Best 술집</h1>
+  <h1 style="text-align:center; margin-bottom:1.5rem; font-size:3rem; color:#545151;">Best 술집</h1>
   <div class="row row-cols-1 row-cols-md-4 g-8">
     {% for restaurant in restaurants %}
     <div class="col">
-      <div class="card" style="height:300px;">
-        <img src="{{ restaurant.picture1 }}" class="card-img-top" alt="..." style="height:150px;">
+      <a href="{% url 'bars:detail' restaurant.pk %}">
+      <div class="card" style="height:300px; border-radius:1.5rem;">
+        <img src="{{ restaurant.picture1 }}" class="card-img-top" alt="" style="height:200px;">
         <div class="card-body">
-          <a href="{% url 'bars:detail' restaurant.pk %}" class="text-decoration-none"><h5 class="card-title">{{ restaurant.name }}</h5></a>
+          <a href="{% url 'bars:detail' restaurant.pk %}" class="text-decoration-none"><h5 style="font-size:35px; color:#545151; text-align:center;" class="card-title">{{ restaurant.name }}</h5></a>
           {% comment %} <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. </p> {% endcomment %}
         </div>
       </div>
-    </div>
+    </a>
+  </div>
 
     {% endfor %}
   </div>
