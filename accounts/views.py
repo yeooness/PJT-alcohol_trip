@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.http import JsonResponse
@@ -107,3 +107,16 @@ def id_check_naver(request):
     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     print('아아아아')
     return JsonResponse({'username': user.username, 'email': user.email})
+
+def update(request, pk):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:userpage', pk)
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {
+    'form': form,
+    }
+    return render(request, 'accounts/update.html', context)

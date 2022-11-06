@@ -3,13 +3,19 @@
 {% load static %}
 { % bootstrap_css % }
 {% block content %}
+<style>
+  .vl {
+    border-left: 3px solid #e9e9e9;
+    height: 6rem;
+  }
+  </style>
 <div class="m-5">
   <div class="d-flex border mx-auto p-5" style="width: 80%; box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 20%); border-radius: 15px; ">
   {% if profile_image %}
     <div class="profile-crop"><img class="profile-image rounded-circle align-middle" src="{{ request_user.profile_image }}" style="width: 7rem; height: 7rem;" alt=""></div>
   {% endif %}
   <div class="p-3">
-    <h3 class="fs-3">{{ request_user.username }}</h3>
+    <h3 class="fs-4">{{ request_user.username }}</h3>
     {% if request.user.is_authenticated %}
       {% if request.user != request_user %}
         <form id="follow-form" data-user-id="{{ request_user.pk }}">
@@ -22,11 +28,11 @@
         </form>
       {% endif %}
     {% endif %}
-
+    
     <div class="d-flex justify-content-center my-2">
-      <div data-bs-toggle="modal" data-bs-target="#exampleModal1" class="me-4 border p-3" style="cursor : pointer;">
-        <p>follower</p>
-        <p id="followers-count" class="mb-0">{{ request_user.followers.all|length }}</p>
+      <div data-bs-toggle="modal" data-bs-target="#exampleModal1" class="me-0 p-3 text-center" style="cursor : pointer;">
+        <p class="fw-bold">follower</p>
+        <p id="followers-count" class="mb-0 fw-bold">{{ request_user.followers.all|length }}</p>
       </div>
       <!-- Modal -->
       <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -52,9 +58,10 @@
           </div>
         </div>
       </div>
-      <div data-bs-toggle="modal" data-bs-target="#exampleModal2" class="me-4 border p-3" style="cursor : pointer;">
-        <p>following</p>
-        <p id="followings-count">{{ request_user.followings.all|length }}</p>
+      <span class="vl mt-2"></span>
+      <div data-bs-toggle="modal" data-bs-target="#exampleModal2" class="me-0 p-3 text-center" style="cursor : pointer;">
+        <p class="fw-bold">following</p>
+        <p id="followings-count" class="mb-0 fw-bold">{{ request_user.followings.all|length }}</p>
       </div>
       <!-- Modal -->
       <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -81,6 +88,7 @@
         </div>
       </div>
     </div>
+    <a href="{% url 'accounts:update' user.pk %}" class="mx-auto">내 정보 수정</a>
   </div>
   </div>
   <div class="row mx-auto mt-5" style="width: 80%;">
