@@ -75,8 +75,8 @@ def delete(request, restaurant_pk, review_pk):
     if request.user == review.user:
         review.delete()
         return redirect("bars:detail", restaurant_pk)
-    else:
-        return HttpResponseForbidden
+    # else:
+    #     return HttpResponseForbidden
 
 
 def comment_create(request, restaurant_pk, review_pk):

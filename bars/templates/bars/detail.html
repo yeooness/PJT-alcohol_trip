@@ -173,7 +173,7 @@
             {% if request.user in restaurant.like_users.all %}
             <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart-fill" style="cursor : pointer; color:#e195a5;"></i>
             {% else %}
-            <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart" style="cursor : pointer;"></i>
+            <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart" style="cursor : pointer; color:#e195a5;"></i>
             {% endif %}
             <span id="like-count" style="color:#e195a5;">{{ restaurant.like_users.count }}</span>
             {% endif %}
@@ -209,9 +209,20 @@
             <div class="d-flex">
               <div class="d-flex justify-content-start align-items-center">
                 <img class="profile-image rounded-circle align-middle" src="{{ review.user.profile_image }}" style="width: 4rem; height: 4rem; margin-right:10px;" alt="">
-                <a href="{% url 'accounts:userpage' review.user.pk %}">
-                  <p class="fw-bold mb-0">{{ review.user.username }} 님</p>
+                <a href="{% url 'accounts:userpage' review.user.pk %}" style="margin-right: 10px;"> 
+                  <p class="fw-bold mb-0">{{ review.user.name }} 님</p>
                 </a>
+                <div>
+                  {% comment %} 비동기 시도 {% endcomment %}
+                  {% if request.user.is_authenticated %}
+                  {% if request.user in review.like_usersreview.all %}
+                  <i data-restaurant-id="{{ restaurant.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart-fill like-review-btn" style="cursor : pointer; color:#e195a5;"></i>
+                  {% else %}
+                  <i data-restaurant-id="{{ restaurant.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart like-review-btn" style="cursor : pointer; color:#e195a5;"></i>
+                  {% endif %}
+                  <span class="like-review-count" style="color:#e195a5;">{{ review.like_usersreview.count }}</span>
+                  {% endif %}
+                </div>
               </div>
             </div>
             <div class="">
@@ -221,11 +232,9 @@
               </div>
             </div>
           </div>
-          
           <p class="fw-bold">{{ review.title }}</p>
           <p>{{ review.content }}</p>
           <img src="{{ review.image.url }}" alt="" style="width: 15rem; height: 15rem;">
-          <br>
 
               <!-- 리뷰 좋아요 -->
           {% comment %} {% if request.user.is_authenticated %}
@@ -236,16 +245,6 @@
             <i class="bi bi-heart" style="color:#e195a5;"></i>
             {% endif %}</a>{{ review.like_usersreview.count }}</span>
           {% endif %} {% endcomment %}
-
-          {% comment %} 비동기 시도 {% endcomment %}
-          {% if request.user.is_authenticated %}
-          {% if request.user in review.like_usersreview.all %}
-          <i id="like-review-btn" data-restaurant-id="{{ restaurant.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart-fill" style="cursor : pointer; color:#e195a5;"></i>
-          {% else %}
-          <i id="like-review-btn" data-restaurant-id="{{ restaurant.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart" style="cursor : pointer; color:#e195a5;"></i>
-          {% endif %}
-          <span id="like-review-count" style="color:#e195a5;">{{ review.like_usersreview.count }}</span>
-          {% endif %}
       
           <!-- 수정/삭제 -->
           <div class="text-end">
@@ -400,27 +399,29 @@
   
   <script>
   // 리뷰 좋아요 비동기
-  const likeReviewBtn = document.querySelector('#like-review-btn')
-  likeReviewBtn.addEventListener('click', function(event) {
-    axios({
-      method: 'post',
-      url: `/bars/${event.target.dataset.restaurantId}/${event.target.dataset.reviewId}/review_like/`,
-      headers : {
-        'X-CSRFTOKEN' : '{{ csrf_token }}'
-       },
+  const likeReviewBtn = document.querySelectorAll('.like-review-btn')
+  for (let i=0; i < likeReviewBtn.length; i++) {
+    likeReviewBtn[i].addEventListener('click', function(event) {
+      axios({
+        method: 'post',
+        url: `/bars/${event.target.dataset.restaurantId}/${event.target.dataset.reviewId}/review_like/`,
+        headers : {
+          'X-CSRFTOKEN' : '{{ csrf_token }}'
+         },
+      })
+      .then(response => {
+        if (response.data.isLiked === true) {
+          event.target.classList.add('bi-heart-fill')
+          event.target.classList.remove('bi-heart')
+        } else {
+          event.target.classList.add('bi-heart')
+          event.target.classList.remove('bi-heart-fill')
+        }
+        const likeReviewCount = event.target.nextElementSibling
+        likeReviewCount.innerText = response.data.likeReviewCount
+      }) 
     })
-    .then(response => {
-      if (response.data.isLiked === true) {
-        event.target.classList.add('bi-heart-fill')
-        event.target.classList.remove('bi-heart')
-      } else {
-        event.target.classList.add('bi-heart')
-        event.target.classList.remove('bi-heart-fill')
-      }
-      const likeReviewCount = document.querySelector('#like-review-count')
-      likeReviewCount.innerText = response.data.likeReviewCount
-    })
-  })
+  }
   </script>
 
 <!-- 카카오맵 -->
