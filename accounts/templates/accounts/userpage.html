@@ -12,7 +12,13 @@
 <div class="m-5 text-center">
   <div class="border mx-auto p-5 text-center" style="width: 600px; box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 20%); border-radius: 15px; ">
   {% if profile_image %}
-    <img class="rounded-circle" src="{{ request_user.profile_image }}" style="width: 10rem; height: 10rem;" alt="">
+    {% if request_user.profile_image %}
+      {% if 'http' in request_user.image_string %}
+        <img class="rounded-circle" src="{{ request_user.profile_image }}" style="width: 10rem; height: 10rem;" alt="">
+      {% else %}
+        <img class="rounded-circle" src="{{ request_user.profile_image.url }}" style="width: 10rem; height: 10rem;" alt="">
+      {% endif %}
+    {% endif %}
   {% endif %}
   <div class="p-3">
     <h2>{{ request_user.name }} 님</h2>

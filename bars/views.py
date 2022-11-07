@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import ReviewForm, CommentForm
-from .models import Restaurant, Review, Comment
+from .models import Restaurant, Review, Comment, Search
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -11,8 +11,10 @@ from django.core.paginator import Paginator
 # limit to 8 cards
 def index(request):
     restaurants = Restaurant.objects.all().order_by("-like_count")[:8]
+    search = Search.objects.all().order_by("-count")[:10]
     context = {
         "restaurants": restaurants,
+        "search": search,
     }
     return render(request, "bars/index.html", context)
 
@@ -131,11 +133,14 @@ def review_like(request, restaurant_pk, review_pk):
     return JsonResponse(context)
 
 def search(request):
-    searched = request.GET['searched']
-    # if Search.objects.get(keyword=searched).exists():
-    #     search = Search.objects.get(keyword=searched)
-    #     search.count += 1
-    # else:
+    searched = request.GET.get('searched')
+    if not searched=="":
+        if Search.objects.filter(keyword=searched).exists():
+            search = Search.objects.get(keyword=searched)
+            search.count += 1
+            search.save()
+        else:
+            Search.objects.create(keyword=searched, count=1)
     restaurants = Restaurant.objects.filter(
         Q(name__contains=searched)|
         Q(category__contains=searched)|

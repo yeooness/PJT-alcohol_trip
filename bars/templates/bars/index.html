@@ -15,17 +15,24 @@
 <!-- Box -->
 <div class="container">
   <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
-    <form class="d-flex w-75 h-25" role="search"  method="GET" action="{% url 'bars:search' %}">
-      <input class="form-control me-2" style="font-size:30px;" name="searched" type="search" placeholder="술집 이름/카테고리/지역을 입력하세요" aria-label="Search">
-      <button type="submit" style="width:120px; border-radius:1rem;">
-        <lord-icon
-          src="https://cdn.lordicon.com/xfftupfv.json"
-          trigger="hover"
-          colors="primary:#121331"
-          style="width:75px; height:75px; position:relative; positon-top: 5px;">
-      </lord-icon>
-      </button>
+    <form class="w-75 h-25" role="search"  method="GET" action="{% url 'bars:search' %}">
+      <div class="d-flex">
+        <input class="form-control me-2" style="font-size:30px;" name="searched" type="search" placeholder="술집 이름/카테고리/지역을 입력하세요" aria-label="Search">
+        <button type="submit" style="width:120px; border-radius:1rem;">
+          <lord-icon
+            src="https://cdn.lordicon.com/xfftupfv.json"
+            trigger="hover"
+            colors="primary:#121331"
+            style="width:75px; height:75px; position:relative; positon-top: 5px;">
+        </lord-icon>
+        </button>
+      </div>
     </form>
+    <div>
+      {% for s in search %}
+        {{ forloop.counter }} {{s.keyword}}
+      {% endfor %}
+    </div>
   </div>
 </div>
 

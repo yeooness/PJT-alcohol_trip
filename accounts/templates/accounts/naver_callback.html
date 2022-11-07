@@ -29,7 +29,7 @@
     headers : {'X-CSRFTOKEN' : '{{ csrf_token }}'},
     data: {'id': id, 'name': name, 'email': email, 'profile_image': profile_image, 'name': name,}
     }).then(response => {
-      window.location.replace("http://127.0.0.1:8000/bars/");
+      window.location.replace("/bars/");
     })
   }
 </script>

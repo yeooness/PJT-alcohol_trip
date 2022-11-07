@@ -8,12 +8,15 @@ class User(AbstractUser):
     profile_image = ProcessedImageField(
         upload_to="images/",
         blank=True,
+        null=True,
         processors=[ResizeToFill(100, 100)],
         format="JPEG",
         options={"quality": 80},
     )
     name = models.CharField(max_length=30)
+    image_string = models.TextField(null=True)
 
     @property
     def full_name(self):
         return f"{self.last_name}{self.first_name}"
+
