@@ -50,33 +50,6 @@
   }
 }
 
-.nav-scroller {
-  position: relative;
-  z-index: 2;
-  height: 2.75rem;
-  overflow-y: hidden;
-}
-
-.nav-scroller .nav {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: nowrap;
-  flex-wrap: nowrap;
-  padding-bottom: 1rem;
-  margin-top: -1px;
-  overflow-x: auto;
-  text-align: center;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-}
-
-.nav-scroller .nav-link {
-  padding-top: .75rem;
-  padding-bottom: .75rem;
-  font-size: .875rem;
-}
-
 .card-img-right {
   height: 100%;
   border-radius: 0 3px 3px 0;
@@ -160,6 +133,7 @@
   height: 300px;
   object-fit: cover;
 }
+
 .detail-title {
   background: linear-gradient(to right,#c298c8 20%, white);
 }
@@ -197,14 +171,14 @@
           <p class="blog-post-meta">
             {% if request.user.is_authenticated %}
             {% if request.user in restaurant.like_users.all %}
-            <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart-fill" style="cursor : pointer;"></i>
+            <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart-fill" style="cursor : pointer; color:#e195a5;"></i>
             {% else %}
             <i id="like-btn" data-restaurant-id="{{ restaurant.pk }}" class="bi bi-heart" style="cursor : pointer;"></i>
             {% endif %}
-            <span id="like-count">{{ restaurant.like_users.count }}</span>
+            <span id="like-count" style="color:#e195a5;">{{ restaurant.like_users.count }}</span>
             {% endif %}
-              좋아요 
-            <a class="btn btn-primary" href="{% url 'bars:review' restaurant.pk %}">
+              <span style="color:#e195a5;">좋아요</span> 
+            <a class="btn btn-primary" style="font-size:1.5rem;" href="{% url 'bars:review' restaurant.pk %}">
             리뷰 작성하기
             </a>
           </p>
@@ -214,29 +188,31 @@
             <p>주소: <span id="addr">{{ restaurant.address }}</span></p>
             <p>카테고리: {{ restaurant.category }}</p>
             <p>전화번호: {{ restaurant.phone }}</p>
-            <p><pre>영업시간: {{ restaurant.hours }}</pre></p>
-            <p>지도 주소: <a href="{{ restaurant.map_url }}">바로가기!</a></p>
+            <p><pre style="font-family:'Jua', sans-serif; font-size:24px;">영업시간: {{ restaurant.hours }}</pre></p>
           </div>
         </div><!-- /.blog-post -->
         <hr>
         <br>
 
-        <div class="blog-post">
+        {% comment %} <div class="blog-post">
           <h2 class="blog-post-title">식당 상세 내용</h2>
           <hr>
           <p>{{ restaurant.content }}</p>
         </div><!-- /.blog-post -->
         <hr>
-        <br>
+        <br> {% endcomment %}
 
         <div class="blog-post">
           <h2 class="blog-post-title">{{ restaurant.name }} 리뷰</h2>
           {% for review in reviews %}
           <div class="d-flex justify-content-between">
             <div class="d-flex">
-              <a href="{% url 'accounts:userpage' review.user.pk %}">
-                <p class="fw-bold">{{ review.user.username }}</p>
-              </a>
+              <div class="d-flex justify-content-start align-items-center">
+                <img class="profile-image rounded-circle align-middle" src="{{ review.user.profile_image }}" style="width: 4rem; height: 4rem; margin-right:10px;" alt="">
+                <a href="{% url 'accounts:userpage' review.user.pk %}">
+                  <p class="fw-bold mb-0">{{ review.user.username }} 님</p>
+                </a>
+              </div>
             </div>
             <div class="">
               <p class="m-0">{{ review.updated_at }}</p>
@@ -245,37 +221,47 @@
               </div>
             </div>
           </div>
+          
           <p class="fw-bold">{{ review.title }}</p>
           <p>{{ review.content }}</p>
 
               <!-- 리뷰 좋아요 -->
-          {% if request.user.is_authenticated %}
+          {% comment %} {% if request.user.is_authenticated %}
           <a class="like-heart" href="{% url 'bars:review_like' restaurant.pk review.pk %}">
             {% if request.user in review.like_usersreview.all %}
-            <i class="bi bi-heart-fill"></i>
+            <i class="bi bi-heart-fill text-danger" style="color:#e195a5;"></i>
             {% else %}
-            <i class="bi bi-heart"></i>
+            <i class="bi bi-heart" style="color:#e195a5;"></i>
             {% endif %}</a>{{ review.like_usersreview.count }}</span>
+          {% endif %} {% endcomment %}
+
+          {% comment %} 비동기 시도 {% endcomment %}
+          {% if request.user.is_authenticated %}
+          {% if request.user in review.like_usersreview.all %}
+          <i id="like-review-btn" data-restaurant-id="{{ restaurant.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart-fill" style="cursor : pointer; color:#e195a5;"></i>
+          {% else %}
+          <i id="like-review-btn" data-restaurant-id="{{ restaurant.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart" style="cursor : pointer; color:#e195a5;"></i>
+          {% endif %}
+          <span id="like-review-count" style="color:#e195a5;">{{ review.like_usersreview.count }}</span>
           {% endif %}
       
           <!-- 수정/삭제 -->
           <div class="text-end">
             <div class="d-flex justify-content-end">
               <a class="btn btn-outline-primary" href="{% url 'bars:update' restaurant.pk review.pk %}">
-                <i class="fa-solid fa-pen"></i>
-      
+                <i class="fa-solid fa-pen"></i> 수정
               </a>
               <!-- <div class="text-end me-5"> -->
               <p>{{ comment.content }}</p>
               {% comment %} 댓글 삭제 버튼 {% endcomment %}
-              <button type="submit" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <button type="submit" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="vertical-align: middle;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
                   viewbox="0 0 16 16">
                   <path
                     d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                   <path fill-rule="evenodd"
                     d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                </svg>
+                </svg> 삭제
               </button>
             </div>
           </div>
@@ -301,11 +287,17 @@
             </div>
           </div>
           <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop-{{ review.id }}">
-            댓글 달기
-          </button>
-      
+          <div class="comments mb-5">
+            <!-- 댓글 -->
+            <i class="bi bi-chat"></i>
+            {% if review.comment_set.all %}
+            {{ review.comment_set.all|length }}
+            {% endif %}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop-{{ review.id }}">
+              댓글 달기
+            </button>
+          </div>
       
           <!-- Modal -->
           <div class="modal fade" id="staticBackdrop-{{ review.pk }}" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -333,19 +325,21 @@
             </div>
           </div>
       
-          <!-- 댓글 -->
-          <i class="bi bi-chat"></i>
-          {% if review.comment_set.all %}
-          {{ review.comment_set.all|length }}
-          {% endif %}
-      
+          
           {% for comment in review.comment_set.all %}
-          <p>{{ comment.content }}</p>
-          <a href="{% url 'bars:comment_delete' restaurant.pk comment.pk %}">삭제</a>
-          <hr>
+          <div class="d-flex justify-content-start align-items-center">
+            <img class="profile-image rounded-circle align-middle" src="{{ review.user.profile_image }}" style="width: 4rem; height: 4rem; margin-right:10px;" alt="">
+            <a href="{% url 'accounts:userpage' review.user.pk %}">
+              <p class="fw-bold mb-0">{{ review.user.username }} 님</p>
+            </a>
+            <p class="mb-0 ms-3">{{ comment.content }}</p>
+            <a href="{% url 'bars:comment_delete' restaurant.pk comment.pk %}" style="margin-left: 1rem;">삭제</a>
+          </div>
+         
           {% empty %}
           <p>댓글이 없습니다.</p>
           {% endfor %}
+          <hr>
           {% endfor %}
         </div><!-- /.blog-post -->
       </div><!-- /.blog-main -->
@@ -354,6 +348,7 @@
         <div class="p-3 mb-3 bg-light rounded">
           <h4>상세 지도</h4>
           <div id="map" style="height:350px;"></div>
+          <p>네이버 플레이스: <a href="{{ restaurant.map_url }}">바로가기!</a></p>
         </div>
 
         <div class="p-3">
@@ -379,7 +374,6 @@
     // 좋아요 비동기
   const likeBtn = document.querySelector('#like-btn')
   likeBtn.addEventListener('click', function(event) {
-    console.log('됩니다')
     axios({
       method: 'post',
       url: `/bars/${event.target.dataset.restaurantId}/restaurant_like/`,
@@ -400,6 +394,31 @@
     })
   })
 
+  </script>
+  
+  <script>
+  // 리뷰 좋아요 비동기
+  const likeReviewBtn = document.querySelector('#like-review-btn')
+  likeReviewBtn.addEventListener('click', function(event) {
+    axios({
+      method: 'post',
+      url: `/bars/${event.target.dataset.restaurantId}/${event.target.dataset.reviewId}/review_like/`,
+      headers : {
+        'X-CSRFTOKEN' : '{{ csrf_token }}'
+       },
+    })
+    .then(response => {
+      if (response.data.isLiked === true) {
+        event.target.classList.add('bi-heart-fill')
+        event.target.classList.remove('bi-heart')
+      } else {
+        event.target.classList.add('bi-heart')
+        event.target.classList.remove('bi-heart-fill')
+      }
+      const likeReviewCount = document.querySelector('#like-review-count')
+      likeReviewCount.innerText = response.data.likeReviewCount
+    })
+  })
   </script>
 
 <!-- 카카오맵 -->

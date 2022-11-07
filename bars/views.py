@@ -118,10 +118,18 @@ def review_like(request, restaurant_pk, review_pk):
     review = Review.objects.get(pk=review_pk)
     if request.user in review.like_usersreview.all():
         review.like_usersreview.remove(request.user)
+        is_liked = False
     else:
         review.like_usersreview.add(request.user)
-    print("오키")
-    return redirect("bars:detail", restaurant_pk)
+        is_liked = True
+    likeReviewCount = review.like_usersreview.count()
+    review.like_usersreview.count = likeReviewCount
+    review.save()
+    context = {
+        'isLiked' : is_liked,
+        'likeReviewCount' : review.like_usersreview.count(),
+    }
+    return JsonResponse(context)
 
 def search(request):
     searched = request.GET['searched']
