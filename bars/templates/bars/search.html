@@ -10,25 +10,27 @@
 
 {% if searched %}
   {% if not restaurants_count %}
-    <h3> "{{ searched }}"의 검색결과가 없습니다 </h3>
+    <h3 style="text-align:center; margin-bottom:1.5rem; font-size:3rem; color:#545151; margin-top:3rem;"> "{{ searched }}"의 검색결과가 없습니다 </h3>
   {% else %}
-    <h3> "{{ searched }}" 맛집 인기 검색순위 </h3>
+    <h3 style="text-align:center; margin-bottom:1.5rem; font-size:3rem; color:#545151; margin-top:3rem;"> "{{ searched }}" 맛집 인기 검색순위 </h3>
     <br>
     <div class="container">
       <div class="row row-cols-1 row-cols-md-4 g-8">
         {% for restaurant in restaurants %}
         <div class="col">
-          <div class="card" style="height:300px;">
+          <a href="{% url 'bars:detail' restaurant.pk %}">
+          <div class="card" style="height:300px; border-radius:1.5rem;">
             <img src="{{ restaurant.picture1 }}" class="card-img-top" alt="..." style="height:150px;">
             <div class="card-body">
-              <a href="{% url 'bars:detail' restaurant.pk %}" class="text-decoration-none"><h5 class="card-title">{{ restaurant.name }}</h5></a>
+              <a href="{% url 'bars:detail' restaurant.pk %}" class="text-decoration-none"><h5 class="card-title" style="font-size:35px; color:#545151; text-align:center;">{{ restaurant.name }}</h5></a>
             </div>
           </div>
+          </a>
         </div>
         {% endfor %}
       </div>
       <!-- 페이징처리 시작 -->
-      <ul class="pagination justify-content-center">
+      <ul class="pagination justify-content-center pagination-lg">
         <!-- 이전페이지 -->
         {% if restaurants.has_previous %}
         <li class="page-item">
