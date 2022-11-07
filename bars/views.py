@@ -1,7 +1,6 @@
-from gzip import READ
 from django.shortcuts import render, redirect
 from .forms import ReviewForm, CommentForm
-from .models import Restaurant, Review, Comment, Search
+from .models import Restaurant, Review, Comment
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -12,10 +11,8 @@ from django.core.paginator import Paginator
 # limit to 8 cards
 def index(request):
     restaurants = Restaurant.objects.all().order_by("-name")[:8]
-    searchs = Search.objects.all().order_by("-count")
     context = {
         "restaurants": restaurants,
-        "searchs": searchs,
     }
     return render(request, "bars/index.html", context)
 
@@ -138,8 +135,6 @@ def search(request):
     #     search = Search.objects.get(keyword=searched)
     #     search.count += 1
     # else:
-    search = Search.objects.create(keyword=searched)
-    search.save()
     restaurants = Restaurant.objects.filter(
         Q(name__contains=searched)|
         Q(category__contains=searched)|
@@ -160,7 +155,7 @@ def search(request):
 
 def category(request, category):
     category_table = {
-        "beer": "맥주, 호프",
+        "beer": "맥주,호프",
         "izakaya": "이자카야",
         "pojangmacha": "포장마차",
         "restaurant": "요리주점",
@@ -186,10 +181,13 @@ def region(request, region):
         "seoul": "서울",
         "gyeonggi": "경기",
         "incheon": "인천",
-        "chungcheong": "충청",
-        "jeolla": "전라",
+        "chungbuk": "충북",
+        "chungnam": "충남",
+        "jeonnam": "전남",
+        "jeonbuk": "전북",
         "gangwon": "강원",
-        "gyeongsang": "경상",
+        "gyeongnam": "경남",
+        "gyeongbuk": "경북",
         "jeju": "제주",
     }
     k_region = region_table.get(region)

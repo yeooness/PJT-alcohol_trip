@@ -123,10 +123,13 @@ hr {
               <li><a class="dropdown-item" href="{% url 'bars:region' "seoul" %}">서울</a></li>
               <li><a class="dropdown-item" href="{% url 'bars:region' "gyeonggi" %}">경기</a></li>
               <li><a class="dropdown-item" href="{% url 'bars:region' "incheon" %}">인천</a></li>
-              <li><a class="dropdown-item" href="{% url 'bars:region' "chungcheong" %}">충청</a></li>
-              <li><a class="dropdown-item" href="{% url 'bars:region' "jeolla" %}">전라</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "chungbuk" %}">충북</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "chungnam" %}">충남</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "jeonnam" %}">전남</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "jeonbuk" %}">전북</a></li>
               <li><a class="dropdown-item" href="{% url 'bars:region' "gangwon" %}">강원</a></li>
-              <li><a class="dropdown-item" href="{% url 'bars:region' "gyeongsang" %}">경상</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "gyeongnam" %}">경남</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:region' "gyeongbuk" %}">경북</a></li>
               <li><a class="dropdown-item" href="{% url 'bars:region' "jeju" %}">제주</a></li>
             </ul>
           </li>
@@ -135,11 +138,12 @@ hr {
               카테고리로 술집 찾기
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url 'bars:category' "beer" %}">맥주, 호프</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:category' "beer" %}">맥주,호프</a></li>
               <li><a class="dropdown-item" href="{% url 'bars:category' "izakaya" %}">이자카야</a></li>
               <li><a class="dropdown-item" href="{% url 'bars:category' "pojangmacha" %}">포장마차</a></li>
               <li><a class="dropdown-item" href="{% url 'bars:category' "restaurant" %}">요리주점</a></li>
               <li><a class="dropdown-item" href="{% url 'bars:category' "bar" %}">바(BAR)</a></li>
+              <li><a class="dropdown-item" href="{% url 'bars:category' "etc" %}">기타</a></li>
             </ul>
           </li>
         </ul>
