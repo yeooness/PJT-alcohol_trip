@@ -210,7 +210,7 @@
               <div class="d-flex justify-content-start align-items-center">
                 <img class="profile-image rounded-circle align-middle" src="{{ review.user.profile_image }}" style="width: 4rem; height: 4rem; margin-right:10px;" alt="">
                 <a href="{% url 'accounts:userpage' review.user.pk %}">
-                  <p class="fw-bold mb-0">{{ review.user.username }} 님</p>
+                  <p class="fw-bold mb-0">{{ review.user.name }} 님</p>
                 </a>
               </div>
             </div>
@@ -221,9 +221,9 @@
               </div>
             </div>
           </div>
-          
           <p class="fw-bold">{{ review.title }}</p>
           <p>{{ review.content }}</p>
+          <p><img class="profile-image rounded-circle align-middle" src="" style="width: 4rem; height: 4rem; margin-right:10px;" alt=""></p>
 
               <!-- 리뷰 좋아요 -->
           {% comment %} {% if request.user.is_authenticated %}
