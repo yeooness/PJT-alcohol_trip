@@ -38,7 +38,7 @@ class Restaurant(models.Model):
     like_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="like_restaurants"
     )
-    like_count = models.IntegerField(default=0)
+
 
 
 class Review(models.Model):
@@ -72,3 +72,7 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+class Search(models.Model):
+    keyword = models.CharField(max_length=30)
+    count = models.IntegerField(default=0)

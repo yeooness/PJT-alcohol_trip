@@ -1,7 +1,7 @@
 from gzip import READ
 from django.shortcuts import render, redirect
 from .forms import ReviewForm, CommentForm
-from .models import Restaurant, Review, Comment
+from .models import Restaurant, Review, Comment, Search
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -11,9 +11,11 @@ from django.core.paginator import Paginator
 
 # limit to 8 cards
 def index(request):
-    restaurants = Restaurant.objects.all().order_by("-like_count")[:8]
+    restaurants = Restaurant.objects.all().order_by("-name")[:8]
+    searchs = Search.objects.all().order_by("-count")
     context = {
         "restaurants": restaurants,
+        "searchs": searchs,
     }
     return render(request, "bars/index.html", context)
 
@@ -105,7 +107,6 @@ def restaurant_like(request, pk):
         restaurant.like_users.add(request.user)
         is_liked = True
     likeCount = restaurant.like_users.count()
-    restaurant.like_count = likeCount
     restaurant.save()
     context = {
         'isLiked' : is_liked,
@@ -133,11 +134,17 @@ def review_like(request, restaurant_pk, review_pk):
 
 def search(request):
     searched = request.GET['searched']
+    if Search.objects.get(keyword=searched).exists():
+        search = Search.objects.get(keyword=searched)
+        search.count += 1
+    else:
+        search = Search.objects.create(keyword=searched)
+        search.save()
     restaurants = Restaurant.objects.filter(
         Q(name__contains=searched)|
         Q(category__contains=searched)|
         Q(address__contains=searched)
-        ).distinct().order_by('-like_count')
+        ).distinct().order_by('-name')
     restaurants_count = restaurants.count()
     # 입력 파라미터
     page = request.GET.get("page", "1")
