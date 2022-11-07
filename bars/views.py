@@ -134,12 +134,12 @@ def review_like(request, restaurant_pk, review_pk):
 
 def search(request):
     searched = request.GET['searched']
-    if Search.objects.get(keyword=searched).exists():
-        search = Search.objects.get(keyword=searched)
-        search.count += 1
-    else:
-        search = Search.objects.create(keyword=searched)
-        search.save()
+    # if Search.objects.get(keyword=searched).exists():
+    #     search = Search.objects.get(keyword=searched)
+    #     search.count += 1
+    # else:
+    search = Search.objects.create(keyword=searched)
+    search.save()
     restaurants = Restaurant.objects.filter(
         Q(name__contains=searched)|
         Q(category__contains=searched)|

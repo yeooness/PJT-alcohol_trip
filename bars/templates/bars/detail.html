@@ -210,7 +210,7 @@
               <div class="d-flex justify-content-start align-items-center">
                 <img class="profile-image rounded-circle align-middle" src="{{ review.user.profile_image }}" style="width: 4rem; height: 4rem; margin-right:10px;" alt="">
                 <a href="{% url 'accounts:userpage' review.user.pk %}">
-                  <p class="fw-bold mb-0">{{ review.user.username }} 님</p>
+                  <p class="fw-bold mb-0">{{ review.user.name }} 님</p>
                 </a>
               </div>
             </div>
@@ -221,7 +221,7 @@
               </div>
             </div>
           </div>
-          
+
           <p class="fw-bold">{{ review.title }}</p>
           <p>{{ review.content }}</p>
           <img src="{{ review.image.url }}" alt="" style="width: 15rem; height: 15rem;">
@@ -237,7 +237,6 @@
             {% endif %}</a>{{ review.like_usersreview.count }}</span>
           {% endif %} {% endcomment %}
 
-          {% comment %} 비동기 시도 {% endcomment %}
           {% if request.user.is_authenticated %}
           {% if request.user in review.like_usersreview.all %}
           <i id="like-review-btn" data-restaurant-id="{{ restaurant.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart-fill" style="cursor : pointer; color:#e195a5;"></i>
