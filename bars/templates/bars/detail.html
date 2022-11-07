@@ -251,15 +251,7 @@
             <i class="bi bi-heart" style="color:#e195a5;"></i>
             {% endif %}</a>{{ review.like_usersreview.count }}</span>
           {% endif %} {% endcomment %}
-
-          {% if request.user.is_authenticated %}
-          {% if request.user in review.like_usersreview.all %}
-          <i id="like-review-btn" data-restaurant-id="{{ restaurant.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart-fill" style="cursor : pointer; color:#e195a5;"></i>
-          {% else %}
-          <i id="like-review-btn" data-restaurant-id="{{ restaurant.pk }}" data-review-id="{{ review.pk }}" class="bi bi-heart" style="cursor : pointer; color:#e195a5;"></i>
-          {% endif %}
-          <span id="like-review-count" style="color:#e195a5;">{{ review.like_usersreview.count }}</span>
-          {% endif %}
+         
       
           <!-- 수정/삭제 -->
           <div class="text-end">

@@ -147,7 +147,7 @@ hr {
             </ul>
           </li>
         </ul>
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 navbar-menu">
             {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
               {% if user.profile_image %}
               {% if 'http' in user.image_string %}

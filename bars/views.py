@@ -49,7 +49,7 @@ def review(request, pk):
         "review_form": review_form,
     }
     return render(request, "bars/review.html", context)
-
+    
 
 def update(request, restaurant_pk, review_pk):
     review = Review.objects.get(pk=review_pk)
