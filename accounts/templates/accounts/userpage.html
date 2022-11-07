@@ -42,7 +42,7 @@
               <h1 class="modal-title fs-5" id="exampleModalLabel">follower list</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="follow-user">
               {% if not request_user.followers.all.count %}
                 <p>팔로우한 사람이 없어요</p>
               {% else %}
@@ -145,6 +145,25 @@
       const followingsCount = response.data.followings_count
       followersCountTag.innerText = followersCount
       followingsCountTag.innerText = followingsCount
+      const followUser = document.querySelector('#follow-user')
+      followUser.textContent = ""
+      const follow_user = response.data.follow_user
+      console.log(follow_user[0].pk)
+      if (follow_user.length == 0) {
+        console.log("nofollow")
+        followUser.insertAdjacentHTML('beforeend', `
+          <p>팔로우한 사람이 없습니다.</p>
+        `)
+      }
+      else {
+        console.log("follow")
+        for (let i = 0; i < follow_user.length; i++) {
+          followUser.insertAdjacentHTML('beforeend', `
+            ${follow_user[i].pk}
+          `)
+        }
+      }
+    
     })
     .catch((error) => {
       console.log(error.response)

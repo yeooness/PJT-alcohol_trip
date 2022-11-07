@@ -41,8 +41,16 @@ def userpage(request, pk):
 def follow(request, pk):
     if request.user.is_authenticated:
         user = User.objects.get(pk=pk)
-        print(user.pk)
-        print(user)
+        follow_user = user.followers.filter(pk=request.user.pk)
+        following_user = user.followings.filter(pk=request.user.pk)
+        follow_user_list = []
+        following_user_list = []
+        for follow in follow_user:
+            follow_user_list.append({'pk': follow.pk, 'username': follow.username,})
+        for following in following_user:
+            following_user_list.append({'pk': following.pk, 'username': following.username,})
+        print("팔로우됨?")
+        print(follow_user_list)
         if user != request.user:
             if user.followers.filter(pk=request.user.pk).exists():
                 user.followers.remove(request.user)
@@ -50,10 +58,10 @@ def follow(request, pk):
             else:
                 user.followers.add(request.user)
                 is_followed = True
-            print("팔로우됨?")
-            print(is_followed)
             context = {
                 'is_followed': is_followed,
+                'follow_user': follow_user_list,
+                'following_user': following_user_list,
                 'followers_count': user.followers.count(),
                 'followings_count': user.followings.count(),
             }
