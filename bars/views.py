@@ -127,7 +127,7 @@ def search(request):
         Q(name__contains=searched)|
         Q(category__contains=searched)|
         Q(address__contains=searched)
-        ).distinct().order_by('name')
+        ).distinct().order_by('-like_count')
     restaurants_count = restaurants.count()
     # 입력 파라미터
     page = request.GET.get("page", "1")
