@@ -79,11 +79,6 @@
         	  gender = kakao_account.gender;
             nickname = kakao_account.profile.nickname;
           }
-          resultdiv += '<h4>email: '+email+'<h4>'
-          resultdiv += '<h4>profile_image: '+profile_image+'<h4>'
-          resultdiv += '<h4>gender: '+gender+'<h4>'
-          resultdiv += '<h4>nickname: '+nickname+'<h4>'
-          $('#result').append(resultdiv);
           console.log(111111111111111)
           const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
           axios({
@@ -93,8 +88,7 @@
             data: {'username': id, 'email': email, 'profile_image': profile_image, 'nickname': nickname,}
             }).then(response => {
               console.log(2222222222222222)
-            // location.reload();
-            // window.location.href = 'http://localhost:8000/bars/'; // 이동할 url
+              window.location.replace("http://127.0.0.1:8000/bars/");
             })
         },
         fail: function(error) {

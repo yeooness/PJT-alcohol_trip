@@ -18,6 +18,7 @@ def login(request):
     context = {
         "form": form,
     }
+
     return render(request, "accounts/login.html", context)
 
 def logout(request):
@@ -90,6 +91,7 @@ def id_check(request):
     print(username)
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
+        profile_image = jsonObject.get('profile_image')
     else:
         email = jsonObject.get('email')
         profile_image = jsonObject.get('profile_image')
