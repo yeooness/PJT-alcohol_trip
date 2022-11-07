@@ -7,24 +7,26 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 {% endblock %}
 {% block content %}
-
+<style>
+.btn {
+  color: #FFFFF;
+  background-color: #c298c8
+  }
+</style>
 <div class="container m-5 mx-auto text-center" style="width:600px;">
   <form action="" method='POST'>
     {% csrf_token %}
     {% bootstrap_form form %}
-    {%bootstrap_button button_type="submit" content="로그인" %}
-    <a href="{% url 'accounts:signup' %}" class="btn btn-primary">회원가입</a>
+    <a id="naverIdLogin_loginButton" href="javascript:void(0)" class="text-decoration-none mb-3">
+      <img src="http://lab.anybuild.co.kr/API/naver/img/naver_g_c_login.PNG" style="width: 14rem; height:3rem;">
+    </a>
+    <a id="kakao-login-btn"></a>
+    <input type="submit" style="width: 14rem; height:3rem;" class="btn mt-3" value="로그인">
+    
   </form>
 <div class="flex flex-col w-full mt-4">
   <!-- receiving from django-allauth -->
   
-  <a id="naverIdLogin_loginButton" href="javascript:void(0)" class="text-decoration-none">
-    <img src="http://lab.anybuild.co.kr/API/naver/img/naver_g_c_login.PNG" style="width: 14rem; height:3rem;">
-  </a>
-
-  <a id="kakao-login-btn"></a>
-	
-	<div id="result"></div>
 
     
 </div>
