@@ -224,6 +224,8 @@
           
           <p class="fw-bold">{{ review.title }}</p>
           <p>{{ review.content }}</p>
+          <img src="{{ review.image.url }}" alt="" style="width: 15rem; height: 15rem;">
+          <br>
 
               <!-- 리뷰 좋아요 -->
           {% comment %} {% if request.user.is_authenticated %}
