@@ -252,7 +252,7 @@
             {% endif %}</a>{{ review.like_usersreview.count }}</span>
           {% endif %} {% endcomment %}
          
-      
+          {% if request.user == review.user %}
           <!-- 수정/삭제 -->
           <div class="text-end">
             <div class="d-flex justify-content-end">
@@ -294,6 +294,8 @@
               </div>
             </div>
           </div>
+          {% endif %}
+
           <!-- Button trigger modal -->
           <div class="comments mb-5">
             <!-- 댓글 -->
@@ -332,7 +334,6 @@
               </div>
             </div>
           </div>
-      
           
           {% for comment in review.comment_set.all %}
           <div class="d-flex justify-content-start align-items-center">
@@ -390,7 +391,7 @@
   likeBtn.addEventListener('click', function(event) {
     axios({
       method: 'post',
-      url: `/bars/${event.target.dataset.restaurantId}/restaurant_like/`,
+      url: `/${event.target.dataset.restaurantId}/restaurant_like/`,
       headers : {
         'X-CSRFTOKEN' : '{{ csrf_token }}'
        },
@@ -417,7 +418,7 @@
     likeReviewBtn[i].addEventListener('click', function(event) {
       axios({
         method: 'post',
-        url: `/bars/${event.target.dataset.restaurantId}/${event.target.dataset.reviewId}/review_like/`,
+        url: `/${event.target.dataset.restaurantId}/${event.target.dataset.reviewId}/review_like/`,
         headers : {
           'X-CSRFTOKEN' : '{{ csrf_token }}'
          },

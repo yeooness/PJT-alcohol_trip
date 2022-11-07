@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 # limit to 8 cards
 def index(request):
     restaurants = Restaurant.objects.all().order_by("-like_count")[:8]
-    search = Search.objects.all().order_by("-count")[:10]
+    search = Search.objects.all().order_by("-count")[:5]
     context = {
         "restaurants": restaurants,
         "search": search,
