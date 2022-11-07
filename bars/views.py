@@ -5,12 +5,13 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.core.paginator import Paginator  
 
 # limit to 8 cards
 def index(request):
-    restaurants = Restaurant.objects.all().order_by("-name")[:8]
+    restaurants = Restaurant.objects.all().order_by("-like_count")[:8]
+    searchs = Search.objects.all().order_by("-count")
     context = {
         "restaurants": restaurants,
     }
@@ -72,8 +73,8 @@ def delete(request, restaurant_pk, review_pk):
     if request.user == review.user:
         review.delete()
         return redirect("bars:detail", restaurant_pk)
-    else:
-        return HttpResponseForbidden
+    # else:
+    #     return HttpResponseForbidden
 
 
 def comment_create(request, restaurant_pk, review_pk):
@@ -104,6 +105,7 @@ def restaurant_like(request, pk):
         restaurant.like_users.add(request.user)
         is_liked = True
     likeCount = restaurant.like_users.count()
+    restaurant.like_count = likeCount
     restaurant.save()
     context = {
         'isLiked' : is_liked,
