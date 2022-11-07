@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-{ % bootstrap_css % }
-{ % bootstrap_javascript % }
 {% load static %}
 {% block content %}
+<style>
+  .card {
+    margin-bottom: 20px;
+  }
+</style>
 
 {% if searched %}
   {% if not restaurants_count %}

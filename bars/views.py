@@ -22,7 +22,9 @@ def detail(request, restaurant_pk):
     restaurant = Restaurant.objects.get(pk=restaurant_pk)
     reviews = Review.objects.filter(restaurant_id=restaurant_pk)
     comment_form = CommentForm
+    print(restaurant.hours)
     context = {
+        "restaurant_hours": restaurant.hours,
         "restaurant": restaurant,
         "reviews": reviews,
         "comment_form": comment_form,
