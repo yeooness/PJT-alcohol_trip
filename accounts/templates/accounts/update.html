@@ -7,10 +7,16 @@
 
 {% block content %}
 
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="수정하기" %}
-</form>
-
+<div class="container" style="width: 600px; box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 20%); border-radius: 15px; ">
+  <div class="m-5 p-5">
+    <h1 class="text-center">회원정보 변경</h1>
+    <p>아이디</p>
+    <p>{{ username }}</p>
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% bootstrap_button button_type="submit" content="수정하기" %}
+    </form>
+  </div>
+</div>
 {% endblock %}

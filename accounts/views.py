@@ -41,16 +41,6 @@ def userpage(request, pk):
 def follow(request, pk):
     if request.user.is_authenticated:
         user = User.objects.get(pk=pk)
-        follow_user = user.followers.filter(pk=request.user.pk)
-        following_user = user.followings.filter(pk=request.user.pk)
-        follow_user_list = []
-        following_user_list = []
-        for follow in follow_user:
-            follow_user_list.append({'pk': follow.pk, 'username': follow.username,})
-        for following in following_user:
-            following_user_list.append({'pk': following.pk, 'username': following.username,})
-        print("팔로우됨?")
-        print(follow_user_list)
         if user != request.user:
             if user.followers.filter(pk=request.user.pk).exists():
                 user.followers.remove(request.user)
@@ -58,6 +48,16 @@ def follow(request, pk):
             else:
                 user.followers.add(request.user)
                 is_followed = True
+            follow_user = user.followers.filter(pk=request.user.pk)
+            following_user = user.followings.filter(pk=request.user.pk)
+            print(follow_user)
+            follow_user_list = []
+            following_user_list = []
+            for follow in follow_user:
+                follow_user_list.append({'pk': follow.pk, 'username': follow.username,})
+            for following in following_user:
+                following_user_list.append({'pk': following.pk, 'username': following.username,})
+            print("팔로우됨?")
             context = {
                 'is_followed': is_followed,
                 'follow_user': follow_user_list,
@@ -93,11 +93,12 @@ def id_check(request):
     else:
         email = jsonObject.get('email')
         profile_image = jsonObject.get('profile_image')
-        user = User.objects.create(username=username, email=email, profile_image=profile_image)
+        name = jsonObject.get('nickname')
+        user = User.objects.create(username=username, email=email, profile_image=profile_image, name=name)
         user.save()
     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     print('아아아아')
-    return JsonResponse({'username': user.username, 'email': user.email, 'profile_image':user.profile_image.url })
+    return JsonResponse({'username': user.username, 'email': user.email, 'profile_image':user.profile_image.url, 'name':user.name,})
 
 def id_check_naver(request):
     jsonObject = json.loads(request.body)
@@ -110,13 +111,15 @@ def id_check_naver(request):
     else:
         email = jsonObject.get('email')
         profile_image = jsonObject.get('profile_image')
-        user = User.objects.create(username=username, email=email, profile_image=profile_image)
+        name = jsonObject.get('name')
+        user = User.objects.create(username=username, email=email, profile_image=profile_image, name=name)
         user.save()
     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     print('아아아아')
-    return JsonResponse({'username': user.username, 'email': user.email})
+    return JsonResponse({'username': user.username, 'email': user.email, 'profile_image':user.profile_image.url, 'name':user.name,})
 
 def update(request, pk):
+    username = request.user.username
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
@@ -125,6 +128,7 @@ def update(request, pk):
     else:
         form = CustomUserChangeForm(instance=request.user)
     context = {
-    'form': form,
+        'form': form,
+        'username': username,
     }
     return render(request, 'accounts/update.html', context)

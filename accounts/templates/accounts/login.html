@@ -72,14 +72,17 @@
           profile_image = "";
           email ="";
           gender = "";
+          nickname = "";
           if(typeof kakao_account != 'undefined'){
             email = kakao_account.email;
             profile_image = kakao_account.profile.thumbnail_image_url;
         	  gender = kakao_account.gender;
+            nickname = kakao_account.profile.nickname;
           }
           resultdiv += '<h4>email: '+email+'<h4>'
           resultdiv += '<h4>profile_image: '+profile_image+'<h4>'
           resultdiv += '<h4>gender: '+gender+'<h4>'
+          resultdiv += '<h4>nickname: '+nickname+'<h4>'
           $('#result').append(resultdiv);
           console.log(111111111111111)
           const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
@@ -87,7 +90,7 @@
             method: 'post',
             url: `/accounts/id_check/`,
             headers: {'X-CSRFToken': csrftoken},
-            data: {'username': id, 'email': email, 'profile_image': profile_image,}
+            data: {'username': id, 'email': email, 'profile_image': profile_image, 'nickname': nickname,}
             }).then(response => {
               console.log(2222222222222222)
             // location.reload();

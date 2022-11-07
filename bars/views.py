@@ -172,7 +172,7 @@ def region(request, region):
         "gyeonggi": "경기",
         "incheon": "인천",
         "chungcheong": "충청",
-        "jeolla": "전라도",
+        "jeolla": "전라",
         "gangwon": "강원",
         "gyeongsang": "경상",
         "jeju": "제주",

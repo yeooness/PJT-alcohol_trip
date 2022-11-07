@@ -23,12 +23,13 @@
     
 	let body = $('body');
 	body.append('로그인 성공!');
+  body.append(name);
   body.append(profile_image);
   axios({
     method: 'post',
     url: `/accounts/id_check_naver/`,
     headers : {'X-CSRFTOKEN' : '{{ csrf_token }}'},
-    data: {'id': id, 'name': name, 'email': email, 'profile_image': profile_image,}
+    data: {'id': id, 'name': name, 'email': email, 'profile_image': profile_image, 'name': name,}
     }).then(response => {
     // location.reload();
     window.close()

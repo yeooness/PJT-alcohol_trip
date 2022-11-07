@@ -113,18 +113,17 @@ body {
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'bars:index' %}">홈</a>
-          <li class="nav-item">
             {% if user.is_authenticated %} {# 유저가 로그인 중이면 #}
-              <a href="{% url 'accounts:userpage' request.user.pk %}" class="nav-link">유저페이지</a>
+              <a href="{% url 'accounts:userpage' request.user.pk %}" class="nav-link"><span class="p-2"><img class="profile-image rounded-circle" src="{{ user.profile_image }}" style="width: 3rem; height: 3rem;" alt=""></span>{{ user.name }} 님 페이지</a>
           </li>
           <li>
             <a href="{% url 'accounts:logout' %}" class="nav-link">로그아웃</a>
             {% else %}
             <a href="{% url 'accounts:login' %}" class="nav-link">로그인</a>
+            <li>
+              <a href="{% url 'accounts:signup' %}" class="nav-link">회원가입</a>
+            </li>
             {% endif %}
-
           </li>
 
         </ul>
