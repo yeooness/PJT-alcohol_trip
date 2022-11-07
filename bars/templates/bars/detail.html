@@ -208,7 +208,13 @@
           <div class="d-flex justify-content-between">
             <div class="d-flex">
               <div class="d-flex justify-content-start align-items-center">
-                <img class="profile-image rounded-circle align-middle" src="{{ review.user.profile_image }}" style="width: 4rem; height: 4rem; margin-right:10px;" alt="">
+                {% if review.user.profile_image %}
+              {% if 'http' in review.user.image_string %}
+                <img class="rounded-circle align-middle" src="{{ review.user.profile_image }}" style="width: 3rem; height: 3rem;" alt="">
+              {% else %}
+                <img class="rounded-circle align-middle" src="{{ review.user.profile_image.url }}" style="width: 3rem; height: 3rem;" alt="">
+              {% endif %}
+              {% endif %}
                 <a href="{% url 'accounts:userpage' review.user.pk %}" style="margin-right: 10px;"> 
                   <p class="fw-bold mb-0">{{ review.user.name }} 님</p>
                 </a>
@@ -338,9 +344,15 @@
           
           {% for comment in review.comment_set.all %}
           <div class="d-flex justify-content-start align-items-center">
-            <img class="profile-image rounded-circle align-middle" src="{{ review.user.profile_image }}" style="width: 4rem; height: 4rem; margin-right:10px;" alt="">
-            <a href="{% url 'accounts:userpage' review.user.pk %}">
-              <p class="fw-bold mb-0">{{ review.user.username }} 님</p>
+            {% if comment.user.profile_image %}
+              {% if 'http' in comment.user.image_string %}
+                <img class="rounded-circle align-middle" src="{{ comment.user.profile_image }}" style="width: 3rem; height: 3rem;" alt="">
+              {% else %}
+                <img class="rounded-circle align-middle" src="{{ comment.user.profile_image.url }}" style="width: 3rem; height: 3rem;" alt="">
+              {% endif %}
+              {% endif %}
+            <a href="{% url 'accounts:userpage' comment.user.pk %}">
+              <p class="fw-bold mb-0">{{ comment.user.name }} 님</p>
             </a>
             <p class="mb-0 ms-3">{{ comment.content }}</p>
             <a href="{% url 'bars:comment_delete' restaurant.pk comment.pk %}" style="margin-left: 1rem;">삭제</a>
