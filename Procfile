@@ -1,0 +1,1 @@
+web: gunicorn alcohol_trip.wsgi --log-file -
