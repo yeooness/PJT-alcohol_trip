@@ -12,6 +12,7 @@ class User(AbstractUser):
         format="JPEG",
         options={"quality": 80},
     )
+    name = models.CharField(max_length=30)
 
     @property
     def full_name(self):
