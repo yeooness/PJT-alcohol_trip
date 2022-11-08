@@ -105,8 +105,8 @@
     <div class="col p-3" style="box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 20%); border-radius: 15px; ">
       <p>좋아하는 술집</p>
       {% for restaurant in request_user.like_restaurants.all %}
-        <a href="{% url 'bars:detail' restaurant.pk %}">
-          <p>{{ restaurant.name }}</p>
+        <a href="{% url 'bars:detail' restaurant.pk %}" class="text-decoration-none">
+          <p class="fw-bold text-dark">{{ restaurant.name }}</p>
         </a>
       {% endfor %}
     </div>
