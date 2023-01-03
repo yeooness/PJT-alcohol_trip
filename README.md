@@ -1,10 +1,4 @@
 # 🍺알콜 트립
-## 티미름
-<img src="alcohol_trip.assets/Alcohol.png" alt="Alcohol" style="zoom: 50%;" />
-
-<br>
-
-[프로젝트 바로가기](https://immense-chamber-32005.herokuapp.com/)
 
 ## ✔️팀원 소개 및 역할
 
